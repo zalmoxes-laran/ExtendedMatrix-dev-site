@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import DPCard from './DPCard.astro';
+import { statusGroupLabel, statusDot } from '../lib/dpMaps';
+
+interface Props {
+  status: string;
+  items: CollectionEntry<'devprojects'>[];
+}
+
+const { status, items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="rm-group" data-group={status}>
+    <div class="rm-group-title">
+      <span class={`rm-dot ${statusDot[status] || 'rm-dot-planned'}`}></span>
+      {statusGroupLabel[status] || status} ({items.length})
+    </div>
+    <div class="rm-cards">
+      {items.map((p) => <DPCard project={p} />)}
+    </div>
+  </div>
+)}

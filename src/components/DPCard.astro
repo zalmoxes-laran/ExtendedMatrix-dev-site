@@ -1,0 +1,58 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { catLabel, catTag, impactLabels, impactTagClass } from '../lib/dpMaps';
+
+interface Props {
+  project: CollectionEntry<'devprojects'>;
+}
+
+const { project } = Astro.props;
+const p = project.data;
+const detailHref = `/dp/${project.slug}/`;
+---
+
+<a
+  class={`dp ${p.embargo ? 'embargo-card' : ''}`}
+  data-cat={p.cat}
+  data-status={p.status}
+  data-target={p.targetVersion ?? ''}
+  data-stratigraph={p.stratigraph ? '1' : '0'}
+  data-thesis={p.thesis ? '1' : '0'}
+  data-impacts={(p.impacts || []).join(' ')}
+  data-search={`${p.id} ${p.title} ${p.desc} ${p.cat} ${(p.impacts || []).join(' ')}${p.stratigraph ? ' stratigraph' : ''}${p.thesis ? ' thesis' : ''}`.toLowerCase()}
+  data-embargo={p.embargo ? 'hidden' : null}
+  href={detailHref}
+>
+  <span class="dp-arrow">&rarr;</span>
+  <div class="dp-top">
+    <span class="dp-id">{p.id}</span>
+    <span class="dp-name">{p.title}</span>
+  </div>
+  <div class="dp-tags">
+    <span class={`tag ${catTag[p.cat] || ''}`}>{catLabel[p.cat] || p.cat}</span>
+    {p.embargo && <span class="tag tag-embargo">EMBARGO</span>}
+    {p.targetVersion && p.targetVersion !== 'TBD' && (
+      <span class="tag tag-version">v{p.targetVersion}</span>
+    )}
+    {p.thesis && <span class="tag tag-thesis">Thesis</span>}
+    {p.stratigraph && (
+      <a
+        href="https://stratigraph-eccch.eu"
+        target="_blank"
+        rel="noopener"
+        class="tag-stratigraph-link"
+        data-stop-bubble="1"
+      >
+        <span class="tag tag-stratigraph">StratiGraph &#8599;</span>
+      </a>
+    )}
+    {(p.impacts || []).map((i) => (
+      <span class={`tag ${impactTagClass[i] || ''}`}>{impactLabels[i] || i}</span>
+    ))}
+  </div>
+  <div class="dp-desc">{p.desc}</div>
+  <div class="dp-foot">
+    {p.targetVersion && <>Target: EM {p.targetVersion}</>}
+    {p.keyStudy && p.keyStudy !== 'Needed' && <> &bull; Key study: {p.keyStudy}</>}
+  </div>
+</a>

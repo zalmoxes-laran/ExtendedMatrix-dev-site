@@ -1,0 +1,20 @@
+{
+  "name": "extendedmatrix-dev-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Extended Matrix — Development Projects tracking site (dev.extendedmatrix.org)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "@astrojs/check": "^0.9.0",
+    "typescript": "^5.6.0"
+  }
+}

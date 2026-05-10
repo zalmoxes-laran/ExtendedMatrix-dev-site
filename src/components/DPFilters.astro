@@ -1,0 +1,92 @@
+---
+// Toolbar with category + StratiGraph filters and free-text search.
+// Filtering is purely client-side, identical to the legacy site:
+// it toggles `display: none` on `.rm-group` cards based on `data-*`.
+---
+<div class="toolbar" id="toolbar">
+  <label>Show</label>
+  <button class="fbtn active" data-filter="all" type="button">All</button>
+  <button class="fbtn" data-filter="core" type="button">Core</button>
+  <button class="fbtn" data-filter="tool" type="button">Tools</button>
+  <button class="fbtn" data-filter="extension" type="button">Domains</button>
+  <button class="fbtn" data-filter="infra" type="button">Infra</button>
+  <button class="fbtn" data-filter="research" type="button">Research</button>
+  <button class="fbtn" data-filter="collab" type="button">Collab</button>
+  <span style="margin-left:0.8rem;border-left:1px solid var(--em-border);padding-left:0.8rem"></span>
+  <button class="fbtn" data-filter="stratigraph" type="button">StratiGraph</button>
+  <input type="text" class="search-box" placeholder="Search..." id="searchBox" />
+</div>
+<div class="stats">
+  <div>Total: <b id="totalCount">0</b></div>
+  <div>Visible: <b id="visibleCount">0</b></div>
+  <div id="embargoStats" style="display:none">Embargoed: <b id="embargoCount">0</b></div>
+</div>
+
+<script is:inline>
+  (function () {
+    const cards = () => document.querySelectorAll('.roadmap .dp');
+    const groups = () => document.querySelectorAll('.roadmap .rm-group');
+    const totalEl = document.getElementById('totalCount');
+    const visibleEl = document.getElementById('visibleCount');
+    const embargoCountEl = document.getElementById('embargoCount');
+    const searchBox = document.getElementById('searchBox');
+    const buttons = document.querySelectorAll('#toolbar .fbtn');
+
+    let activeFilter = 'all';
+    let searchQ = '';
+
+    const allCards = Array.from(cards());
+    const total = allCards.filter((c) => c.dataset.embargo !== 'hidden').length;
+    const embargoed = allCards.filter((c) => c.dataset.embargo === 'hidden').length;
+    if (totalEl) totalEl.textContent = String(total);
+    if (embargoCountEl) embargoCountEl.textContent = String(embargoed);
+
+    function apply() {
+      let vis = 0;
+      allCards.forEach((c) => {
+        if (c.dataset.embargo === 'hidden') return; // already removed by Layout JS
+        let ok = true;
+        if (activeFilter === 'stratigraph') {
+          if (c.dataset.stratigraph !== '1') ok = false;
+        } else if (activeFilter !== 'all') {
+          if (c.dataset.cat !== activeFilter) ok = false;
+        }
+        if (ok && searchQ) {
+          if (!c.dataset.search.includes(searchQ.toLowerCase())) ok = false;
+        }
+        c.style.display = ok ? '' : 'none';
+        if (ok) vis++;
+      });
+      // Hide groups that have no visible cards
+      groups().forEach((g) => {
+        const visibleInGroup = Array.from(g.querySelectorAll('.dp')).some(
+          (c) => c.style.display !== 'none' && c.dataset.embargo !== 'hidden'
+        );
+        g.style.display = visibleInGroup ? '' : 'none';
+      });
+      if (visibleEl) visibleEl.textContent = String(vis);
+    }
+
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        buttons.forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.dataset.filter;
+        apply();
+      })
+    );
+    if (searchBox) {
+      searchBox.addEventListener('input', () => {
+        searchQ = searchBox.value;
+        apply();
+      });
+    }
+    // Initial pass after Layout's embargo logic has had a chance to run.
+    setTimeout(apply, 0);
+
+    // Stop StratiGraph external-link clicks from triggering the parent card.
+    document.querySelectorAll('a[data-stop-bubble="1"]').forEach((a) => {
+      a.addEventListener('click', (e) => e.stopPropagation());
+    });
+  })();
+</script>

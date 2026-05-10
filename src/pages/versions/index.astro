@@ -1,0 +1,52 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const versions = (await getCollection('emVersions')).sort(
+  (a, b) => parseFloat(b.data.version) - parseFloat(a.data.version)
+);
+const projects = await getCollection('devprojects', ({ data }) => !data.draft);
+---
+
+<Layout activeTab="versions" title="Extended Matrix — EM Versions">
+  <section class="section">
+    <div class="versions">
+      <h2 class="versions-title">Extended Matrix Versions</h2>
+      {versions.map((v) => {
+        const cur = v.data.status === 'in-development';
+        const dps = projects
+          .filter((p) => p.data.targetVersion === v.data.version)
+          .sort((a, b) => a.data.id.localeCompare(b.data.id));
+        return (
+          <div class={`ver-card ${cur ? 'current' : ''}`}>
+            <h3>
+              EM {v.data.version}
+              <span style="font-weight:400;font-size:0.88rem;color:var(--em-text-light)"> ({v.data.date})</span>
+              {cur && <span class="ver-tag">IN DEVELOPMENT</span>}
+            </h3>
+            <p>{v.data.summary}</p>
+            {v.data.repos && v.data.repos.length > 0 && (
+              <div class="ver-links">
+                {v.data.repos.map((r) => (
+                  <a href={r.url} target="_blank" rel="noopener">{r.label} &nearr;</a>
+                ))}
+              </div>
+            )}
+            {dps.length > 0 && (
+              <div class="ver-dps">
+                {dps.map((p) => (
+                  <span
+                    class={`ver-dp ${p.data.incorporated ? 'done' : ''}`}
+                    data-embargo={p.data.embargo ? 'hidden' : null}
+                  >
+                    {p.data.id} {p.data.title}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,141 @@
+---
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Hide the heavy header (logo + meta line) when set — useful for the
+   *  detail pages where we want a slimmer top bar. */
+  slim?: boolean;
+  /** Active tab: 'roadmap' | 'versions' | 'incorporated' | null */
+  activeTab?: string | null;
+}
+
+const {
+  title = 'Extended Matrix — Development Projects',
+  description = 'Active and planned development projects for the EM formal language, framework, and tooling ecosystem.',
+  slim = false,
+  activeTab = null,
+} = Astro.props;
+
+// Pull the in-development version (1.6 today) so the header line auto-updates
+// when the next release flips its `status` from `in-development` to `released`.
+const versions = await getCollection('emVersions');
+const inDev = versions.find((v) => v.data.status === 'in-development');
+const released = versions
+  .filter((v) => v.data.status === 'released')
+  .sort((a, b) => parseFloat(b.data.version) - parseFloat(a.data.version));
+const latestReleased = released[0];
+
+const headerVersionLabel = inDev
+  ? `Current: EM v${inDev.data.version} (in development)`
+  : latestReleased
+    ? `Current: EM v${latestReleased.data.version}`
+    : 'Current version: TBD';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).toString()} />
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-top">
+      <img src="/logo_EM.png" alt="Extended Matrix" />
+      <h1>
+        <span>Extended</span> Matrix
+        <span style="font-size:0.6em;font-weight:400;opacity:0.55">Development Projects</span>
+      </h1>
+    </div>
+    {!slim && (
+      <p>{description}</p>
+      <div class="hdr-meta">
+        <span>Last updated: April 2026</span>
+        <span>{headerVersionLabel}</span>
+        <span>Emanuel Demetrescu — CNR-ISPC</span>
+        <span id="embargoIndicator" style="display:none">
+          <span class="embargo-badge">EMBARGO MODE</span>
+        </span>
+      </div>
+    )}
+  </div>
+</header>
+
+{!slim && (
+  <div class="method">
+    <div class="method-inner">
+      <button class="method-toggle" id="methodToggle" type="button">
+        <span class="arrow">&#9654;</span> How Development Projects work
+      </button>
+      <div class="method-body" id="methodBody">
+        <h4>Three-level architecture</h4>
+        <p><strong>Extended Matrix (Language)</strong> — Nodes and node variants formalizing virtual reconstruction. Expandable through new node types. Currently expressed in yEd/GraphML; s3Dgraphy provides a richer property graph underneath. s3Dgraphy JSON config files encode the formal rules and are part of the core language.</p>
+        <p><strong>Extended Matrix Framework</strong> — Tools ecosystem: EMtools (Blender add-on), s3Dgraphy (Python library), 3D Survey Collection (3DSC, photogrammetry &amp; 3D model preparation), Heriverse (online viewer), Tapestry (AI-based proxy rendering), external standalone tools, connectors. Separation of responsibilities enables parallel development.</p>
+        <p><strong>Governance Cycle</strong> — EM advances every 6 months. A <em>Component</em> is a new node or a tool using/expanding existing nodes. A <em>Development Project</em> impacts one or more Components. Each DP requires a <em>Key Study with open data</em>.</p>
+        <h4>DP Lifecycle</h4>
+        <p>Proposal (with Key Study) &rarr; Development &rarr; Community Review &rarr; Candidate for EM Version &rarr; Inclusion</p>
+        <h4>StratiGraph EU Project</h4>
+        <p>Several Development Projects are funded or developed within <a href="https://stratigraph-eccch.eu" target="_blank"><strong>StratiGraph</strong></a>, a European project supporting the creation of a collaborative infrastructure for stratigraphic heritage documentation. DPs tagged with <span class="tag tag-stratigraph" style="font-size:0.82rem">StratiGraph</span> were created or advanced as part of this initiative. Use the StratiGraph filter to isolate them.</p>
+        <h4>Resources</h4>
+        <p><a href="https://www.extendedmatrix.org/how-to">Documentation</a> &bull; <a href="https://github.com/zalmoxes-laran/EM-blender-tools">EMtools repo</a> &bull; <a href="https://github.com/zalmoxes-laran/s3Dgraphy">s3Dgraphy repo</a> &bull; <a href="https://pypi.org/project/s3dgraphy/">s3Dgraphy on PyPI</a> &bull; <a href="https://github.com/zalmoxes-laran/3D-survey-collection">3DSC repo</a> &bull; <a href="https://stratigraph-eccch.eu">StratiGraph project</a></p>
+      </div>
+    </div>
+  </div>
+)}
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <a class={`tab ${activeTab === 'roadmap' ? 'active' : ''}`} href="/">Roadmap</a>
+    <a class={`tab ${activeTab === 'versions' ? 'active' : ''}`} href="/versions/">EM Versions</a>
+    <a class={`tab ${activeTab === 'incorporated' ? 'active' : ''}`} href="/incorporated/">Incorporated</a>
+  </div>
+</nav>
+
+<slot />
+
+<footer class="foot">
+  Extended Matrix Development Projects&ensp;&bull;&ensp;<a href="https://extendedmatrix.org">extendedmatrix.org</a><br />
+  Emanuel Demetrescu, CNR-ISPC Virtual Heritage Lab, Roma
+</footer>
+
+<script is:inline>
+  // Embargo URL flag (preserved from legacy site).
+  const EMBARGO_ON = new URLSearchParams(window.location.search).get('embargo') === 'on';
+  if (EMBARGO_ON) {
+    const ind = document.getElementById('embargoIndicator');
+    if (ind) ind.style.display = 'inline';
+    document.body.dataset.embargo = 'on';
+    // Reveal embargo cards/rows that the SSR hid by default.
+    document.querySelectorAll('[data-embargo="hidden"]').forEach((el) => {
+      el.removeAttribute('data-embargo');
+    });
+  } else {
+    // Strip embargo entries from the DOM entirely so they cannot leak via
+    // dev-tools without the URL flag.
+    document.querySelectorAll('[data-embargo="hidden"]').forEach((el) => {
+      el.remove();
+    });
+  }
+
+  // Method-toggle accordion
+  const mt = document.getElementById('methodToggle');
+  if (mt) {
+    mt.addEventListener('click', () => {
+      mt.classList.toggle('open');
+      const body = document.getElementById('methodBody');
+      if (body) body.classList.toggle('open');
+    });
+  }
+</script>
+
+</body>
+</html>

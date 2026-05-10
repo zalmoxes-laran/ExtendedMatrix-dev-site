@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { catLabel } from '../../lib/dpMaps';
+
+const done = (await getCollection('devprojects', ({ data }) => !!data.incorporated && !data.draft))
+  .sort((a, b) => a.data.id.localeCompare(b.data.id));
+---
+
+<Layout activeTab="incorporated" title="Extended Matrix — Incorporated DPs">
+  <section class="section">
+    <div class="incorp">
+      {done.length === 0 ? (
+        <p style="padding:2rem 0;color:var(--em-text-light);font-size:0.92rem">
+          No Development Projects have been fully incorporated yet. Projects targeting EM v1.5 are currently in development.
+        </p>
+      ) : (
+        <>
+          <h2 class="incorp-title">Incorporated Development Projects</h2>
+          <table class="incorp-table">
+            <thead>
+              <tr>
+                <th>DP</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>EM Version</th>
+                <th>Key Study</th>
+              </tr>
+            </thead>
+            <tbody>
+              {done.map((p) => (
+                <tr data-embargo={p.data.embargo ? 'hidden' : null}>
+                  <td><a href={`/dp/${p.slug}/`}>{p.data.id}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>{p.data.title}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>{catLabel[p.data.cat] || p.data.cat}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>v{p.data.incorporated}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>{p.data.keyStudy || ''}</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+    </div>
+  </section>
+</Layout>

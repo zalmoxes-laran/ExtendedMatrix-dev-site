@@ -1,0 +1,116 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import {
+  catLabel,
+  catTag,
+  impactLabels,
+  impactTagClass,
+  statusDot,
+  resolveStatusLabel,
+} from '../../lib/dpMaps';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('devprojects', ({ data }) => !data.draft);
+  return projects.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const p = entry.data;
+const { Content } = await entry.render();
+---
+
+<Layout
+  activeTab={null}
+  slim={true}
+  title={`${p.id} — ${p.title} · Extended Matrix Development Projects`}
+  description={p.desc}
+>
+  <section class="dp-body">
+    <a href="/" class="dp-back">&larr; Back to Roadmap</a>
+
+    <div class="panel" style="box-shadow:none;max-width:none;margin:0">
+      <div class="panel-hdr">
+        <div class="panel-id">{p.id}{p.embargo ? ' — EMBARGO' : ''}</div>
+        <h2>{p.title}</h2>
+        <div class="dp-tags" style="margin-top:0.5rem">
+          <span class={`tag ${catTag[p.cat] || ''}`}>{catLabel[p.cat] || p.cat}</span>
+          {p.embargo && <span class="tag tag-embargo">EMBARGO</span>}
+          {p.targetVersion && p.targetVersion !== 'TBD' && (
+            <span class="tag tag-version">v{p.targetVersion}</span>
+          )}
+          {p.thesis && <span class="tag tag-thesis">Thesis candidate</span>}
+          {p.stratigraph && (
+            <a href="https://stratigraph-eccch.eu" target="_blank" rel="noopener" class="tag-stratigraph-link">
+              <span class="tag tag-stratigraph">StratiGraph &#8599;</span>
+            </a>
+          )}
+          {(p.impacts || []).map((i) => (
+            <span class={`tag ${impactTagClass[i] || ''}`}>{impactLabels[i] || i}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="psec">
+          <h3>Description</h3>
+          <Content />
+        </div>
+        <div class="psec">
+          <h3>Status</h3>
+          <div class="status-line">
+            <span class={`rm-dot ${statusDot[p.status] || 'rm-dot-planned'}`}></span>
+            {resolveStatusLabel(p.status, p.statusLabel)}
+          </div>
+        </div>
+        <div class="psec">
+          <h3>Target EM Version</h3>
+          <p>{p.targetVersion || 'TBD'}</p>
+        </div>
+        {p.incorporated && (
+          <div class="psec">
+            <h3>Incorporated in</h3>
+            <p>EM v{p.incorporated}</p>
+          </div>
+        )}
+        <div class="psec">
+          <h3>Impacts</h3>
+          <div class="dp-tags">
+            {(p.impacts || []).length === 0 ? (
+              <span style="color:#999">TBD</span>
+            ) : (
+              (p.impacts || []).map((i) => (
+                <span class={`tag ${impactTagClass[i] || ''}`}>{impactLabels[i] || i}</span>
+              ))
+            )}
+          </div>
+        </div>
+        <div class="psec">
+          <h3>Components</h3>
+          <ul>
+            {((p.components || []).length === 0 ? ['TBD'] : p.components).map((c) => <li>{c}</li>)}
+          </ul>
+        </div>
+        <div class="psec">
+          <h3>Key Study</h3>
+          <p>{p.keyStudy || 'Needed'}</p>
+        </div>
+        {p.notes && (
+          <div class="psec">
+            <h3>Notes</h3>
+            <p>{p.notes}</p>
+          </div>
+        )}
+        {p.embargoNotes && (
+          <div class="embargo-detail" data-embargo="hidden">
+            <h4>Embargo notes</h4>
+            <p>{p.embargoNotes}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DPFilters from '../components/DPFilters.astro';
+import StatusGroup from '../components/StatusGroup.astro';
+import { getCollection } from 'astro:content';
+import { statusOrder } from '../lib/dpMaps';
+
+// Roadmap = all DPs that have not yet been incorporated, grouped by status,
+// in the canonical legacy order. Embargo cards are emitted but flagged so
+// the Layout.astro inline script removes them when ?embargo=on is missing.
+const all = await getCollection('devprojects', ({ data }) => !data.draft && !data.incorporated);
+all.sort((a, b) => a.data.id.localeCompare(b.data.id));
+
+const groups: Record<string, typeof all> = {};
+for (const s of statusOrder) groups[s] = [];
+for (const p of all) {
+  const bucket = groups[p.data.status] || groups['planned'];
+  bucket.push(p);
+}
+---
+
+<Layout activeTab="roadmap">
+  <section class="section" id="sec-roadmap">
+    <DPFilters />
+    <div class="roadmap" id="roadmapContainer">
+      {statusOrder.map((s) => <StatusGroup status={s} items={groups[s]} />)}
+    </div>
+  </section>
+</Layout>
