@@ -141,8 +141,8 @@ a:hover { color: var(--em-gold); }
 .rm-dot-research { background: #c0392b; }
 .rm-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0.75rem; }
 
-.dp { background: var(--em-white); border: 1px solid var(--em-border); border-radius: var(--radius); padding: 1.05rem 1.15rem; cursor: pointer; transition: box-shadow 0.2s; position: relative; text-decoration: none; color: inherit; display: block; }
-.dp:hover { box-shadow: 0 4px 16px rgba(7,55,99,0.08); color: inherit; }
+.dp { background: var(--em-white); border: 1px solid var(--em-border); border-radius: var(--radius); padding: 1.05rem 1.15rem; cursor: pointer; transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease; position: relative; text-decoration: none; color: inherit; display: block; }
+.dp:hover { box-shadow: 0 8px 24px rgba(7,55,99,0.18); color: inherit; transform: translateY(-2px); border-color: var(--em-gold); }
 .dp.embargo-card { border-left: 3px solid var(--em-gold); background: var(--em-gold-pale); }
 .dp-top { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.4rem; }
 .dp-id { font-size: 0.68rem; font-weight: 700; color: var(--em-white); background: var(--em-blue); padding: 0.12rem 0.4rem; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
@@ -168,7 +168,8 @@ a:hover { color: var(--em-gold); }
 .tag-thesis { background: var(--em-gold-pale); color: var(--em-gold); border: 1px solid var(--em-gold); }
 .tag-stratigraph { background: #2e7d32; color: #fff; border: 1px solid #1b5e20; cursor: pointer; }
 .tag-stratigraph:hover { background: #1b5e20; }
-a.tag-stratigraph-link { text-decoration: none; }
+.tag-stratigraph-link { text-decoration: none; cursor: pointer; }
+.tag-stratigraph-link:focus-visible { outline: 2px solid var(--em-gold); outline-offset: 2px; }
 .tag-emtools { background: #e8d5f5; color: #5b2c8e; }
 .tag-s3d { background: #d5eef5; color: #1a6b7a; }
 .tag-yed { background: #e6eed5; color: #4a6b1a; }
@@ -201,8 +202,10 @@ a.tag-stratigraph-link { text-decoration: none; }
 
 .versions { max-width: var(--max-w); margin: 0 auto; padding: 1rem 2rem 2rem; }
 .versions h2.versions-title { font-family: var(--font-serif); color: var(--em-blue); margin-bottom: 1rem; font-size: 1.25rem; }
-.ver-card { background: var(--em-white); border: 1px solid var(--em-border); border-radius: var(--radius); padding: 1rem 1.2rem; margin-bottom: 0.8rem; }
+.ver-card { background: var(--em-white); border: 1px solid var(--em-border); border-radius: var(--radius); padding: 1rem 1.2rem; margin-bottom: 0.8rem; transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease; }
+.ver-card:hover { box-shadow: 0 8px 24px rgba(7,55,99,0.18); transform: translateY(-2px); border-color: var(--em-gold); }
 .ver-card.current { border-left: 3px solid var(--em-gold); }
+.ver-card.current:hover { border-color: var(--em-gold); }
 .ver-card h3 { font-family: var(--font-serif); font-size: 1.1rem; color: var(--em-blue); margin-bottom: 0.3rem; }
 .ver-card h3 .ver-tag { font-size: 0.67rem; background: var(--em-gold); color: #fff; padding: 0.1rem 0.4rem; border-radius: 3px; vertical-align: middle; margin-left: 0.4rem; font-weight: 600; }
 .ver-card p { font-size: 0.88rem; color: var(--em-text-light); margin-bottom: 0.4rem; }

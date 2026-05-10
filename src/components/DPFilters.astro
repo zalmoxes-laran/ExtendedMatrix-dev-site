@@ -23,9 +23,11 @@
 </div>
 
 <script is:inline>
-  (function () {
-    const cards = () => document.querySelectorAll('.roadmap .dp');
-    const groups = () => document.querySelectorAll('.roadmap .rm-group');
+  // The script is emitted BEFORE the roadmap container in the document, so
+  // any DOM lookup must wait until the parser has built the rest of the
+  // page. Defer all initialisation to DOMContentLoaded — both for the
+  // initial total / visible counters and for the click handlers.
+  function initDPFilters() {
     const totalEl = document.getElementById('totalCount');
     const visibleEl = document.getElementById('visibleCount');
     const embargoCountEl = document.getElementById('embargoCount');
@@ -35,7 +37,11 @@
     let activeFilter = 'all';
     let searchQ = '';
 
-    const allCards = Array.from(cards());
+    // Capture cards lazily AFTER the DOM is ready and AFTER Layout's embargo
+    // pass has had a chance to remove hidden entries.
+    const allCards = Array.from(document.querySelectorAll('.roadmap .dp'));
+    const groupNodes = document.querySelectorAll('.roadmap .rm-group');
+
     const total = allCards.filter((c) => c.dataset.embargo !== 'hidden').length;
     const embargoed = allCards.filter((c) => c.dataset.embargo === 'hidden').length;
     if (totalEl) totalEl.textContent = String(total);
@@ -58,7 +64,7 @@
         if (ok) vis++;
       });
       // Hide groups that have no visible cards
-      groups().forEach((g) => {
+      groupNodes.forEach((g) => {
         const visibleInGroup = Array.from(g.querySelectorAll('.dp')).some(
           (c) => c.style.display !== 'none' && c.dataset.embargo !== 'hidden'
         );
@@ -81,12 +87,30 @@
         apply();
       });
     }
-    // Initial pass after Layout's embargo logic has had a chance to run.
-    setTimeout(apply, 0);
 
-    // Stop StratiGraph external-link clicks from triggering the parent card.
-    document.querySelectorAll('a[data-stop-bubble="1"]').forEach((a) => {
-      a.addEventListener('click', (e) => e.stopPropagation());
+    // Stop StratiGraph badge clicks from following the parent card link, and
+    // open the StratiGraph site in a new tab. The badge is now a <span> with
+    // role="link" so we have to wire the navigation by hand.
+    document.querySelectorAll('[data-stop-bubble="1"]').forEach((el) => {
+      const open = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const href = el.getAttribute('data-href');
+        if (href) window.open(href, '_blank', 'noopener');
+      };
+      el.addEventListener('click', open);
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') open(e);
+      });
     });
-  })();
+
+    // Initial pass after Layout's embargo logic has had a chance to run.
+    apply();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDPFilters);
+  } else {
+    initDPFilters();
+  }
 </script>

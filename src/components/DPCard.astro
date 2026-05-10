@@ -36,15 +36,13 @@ const detailHref = `/dp/${project.slug}/`;
     )}
     {p.thesis && <span class="tag tag-thesis">Thesis</span>}
     {p.stratigraph && (
-      <a
-        href="https://stratigraph-eccch.eu"
-        target="_blank"
-        rel="noopener"
-        class="tag-stratigraph-link"
+      <span
+        class="tag tag-stratigraph tag-stratigraph-link"
+        data-href="https://stratigraph-eccch.eu"
         data-stop-bubble="1"
-      >
-        <span class="tag tag-stratigraph">StratiGraph &#8599;</span>
-      </a>
+        role="link"
+        tabindex="0"
+      >StratiGraph &#8599;</span>
     )}
     {(p.impacts || []).map((i) => (
       <span class={`tag ${impactTagClass[i] || ''}`}>{impactLabels[i] || i}</span>
