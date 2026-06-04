@@ -44,7 +44,10 @@ If you forget everything else in this guide, remember this: **the website
 - **Duration.** 45–60 minutes, hard cap. If a topic spills over, it
   becomes the first agenda item next month, not a meeting extension.
 - **Audience.** Public. No invitation needed. Anyone with the Teams link
-  can join, anonymous Teams access works.
+  can join in the browser without a Microsoft account; Teams will
+  ask for a display name on the join page (please ask attendees to
+  use their real name out of basic courtesy — these are small
+  community sessions, knowing who's in the room matters).
 - **Teams meeting URL.** Reused across meetings until it expires
   (Microsoft rotates them). The current ones are stored in the
   `meetingUrl` frontmatter field of each meeting's .md file. When the
@@ -382,8 +385,12 @@ always reschedule explicitly with at least 7 days notice.
 
 ### 9.2 Lower the cost of attending
 
-- **Public Teams link, anonymous access**: do NOT require a Microsoft
-  account, ever. Confirmed working today.
+- **Public Teams link, no Microsoft account required**: anyone with
+  the link can join from a browser. Teams asks for a display name on
+  the join page — please ask attendees to use their real name (+
+  affiliation if relevant) out of basic courtesy. These are small
+  community meetings, not anonymous webinars; knowing who's in the
+  room is part of the tone.
 - **45-60 minutes hard cap**: people will protect a one-hour slot they
   won't protect a "1.5–2 hour" one.
 - **Async-first**: the Discussion thread before/after means people who
@@ -528,7 +535,7 @@ Body:
 
 ```markdown
 **When:** YYYY-MM-DD at 15:00 CET (~14:00 UTC)
-**Where:** Teams call, anonymous access OK — link in the meeting page
+**Where:** Teams call in the browser, no Microsoft account required — link in the meeting page. You'll be asked for a display name; please use your real one.
 **Page on the site:** https://extendedmatrix.org/community/dev-meetings/YYYY-MM-DD-slug/
 **Format:** notes-first, blender.org-module-meeting style
 
@@ -686,7 +693,7 @@ https://github.com/zalmoxes-laran/ExtendedMatrix-dev-site/discussions/NNN
 Page on the site:
 https://extendedmatrix.org/community/dev-meetings/YYYY-MM-DD-slug/
 
-Teams web, anonymous OK, no recording. Drop topics in the thread above
+Teams in the browser (no Microsoft account needed, please use your real name when prompted), no recording. Drop topics in the thread above
 by <T-1 day>; I'll lock the agenda the day before.
 ```
 
