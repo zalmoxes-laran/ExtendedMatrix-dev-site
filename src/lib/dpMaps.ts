@@ -56,6 +56,7 @@ export const impactLabels: Record<string, string> = {
   yed: 'yEd palette',
   config: 's3D config (rules)',
   heriverse: 'Heriverse',
+  emstudio: 'EMStudio',
 };
 
 export const impactTagClass: Record<string, string> = {
@@ -64,6 +65,7 @@ export const impactTagClass: Record<string, string> = {
   yed: 'tag-yed',
   config: 'tag-config',
   heriverse: 'tag-heriverse',
+  emstudio: 'tag-emstudio',
 };
 
 // Keep the impactTagClass values aligned with the CSS in global.css.

@@ -23,7 +23,7 @@ const devprojects = defineCollection({
     // Taxonomy
     cat: z.enum(['core', 'tool', 'extension', 'infra', 'research', 'collab']),
     impacts: z
-      .array(z.enum(['emtools', 's3d', 'yed', 'config', 'heriverse']))
+      .array(z.enum(['emtools', 's3d', 'yed', 'config', 'heriverse', 'emstudio']))
       .default([]),
 
     // Status
