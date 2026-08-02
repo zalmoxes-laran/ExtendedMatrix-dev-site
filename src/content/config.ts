@@ -26,7 +26,11 @@ const devprojects = defineCollection({
       .array(z.enum(['emtools', 's3d', 'yed', 'config', 'heriverse', 'emstudio']))
       .default([]),
 
-    // Status
+    // Status — ordered from most-shipped to most-nascent. `idea` is the
+    // earliest stage: a design sketch not yet articulated as a formal
+    // concept (which is the next step up). Added 2026-08-02 for DP-79
+    // (EM Narrative) — kept below `concept` in the enum to preserve
+    // the maturity gradient when consumers sort or filter by status.
     status: z.enum([
       'done',
       'near',
@@ -35,6 +39,7 @@ const devprojects = defineCollection({
       'planned',
       'concept',
       'research',
+      'idea',
     ]),
     // Legacy `statusLabel` field — preserved verbatim from the source array,
     // even though it is derivable from `status`. Keeping it avoids any data

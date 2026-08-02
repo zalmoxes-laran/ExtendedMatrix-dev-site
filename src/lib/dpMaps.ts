@@ -28,6 +28,10 @@ export const statusOrder = [
   'planned',
   'concept',
   'research',
+  // 'idea' is the earliest stage — added 2026-08-02 for DP-79
+  // (EM Narrative). Placed last in the order so the homepage
+  // groups it below Research (most-nascent bucket).
+  'idea',
 ] as const;
 
 export const statusGroupLabel: Record<string, string> = {
@@ -38,6 +42,7 @@ export const statusGroupLabel: Record<string, string> = {
   planned: 'Planned',
   concept: 'Concept',
   research: 'Research',
+  idea: 'Idea',
 };
 
 export const statusDot: Record<string, string> = {
@@ -48,6 +53,10 @@ export const statusDot: Record<string, string> = {
   planned: 'rm-dot-planned',
   concept: 'rm-dot-concept',
   research: 'rm-dot-research',
+  // Reusing rm-dot-concept for `idea` for now — visually adjacent.
+  // TODO: introduce a distinct rm-dot-idea class in global.css if a
+  // separate colour is desired (currently identical to concept).
+  idea: 'rm-dot-concept',
 };
 
 export const impactLabels: Record<string, string> = {
