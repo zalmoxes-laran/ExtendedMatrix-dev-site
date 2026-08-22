@@ -7,8 +7,8 @@ impacts:
   - "emstudio"
   - "config"
   - "heriverse"
-status: "idea"
-statusLabel: "Design sketch — native semantic narrative"
+status: "in-dev"
+statusLabel: "In development — authored & exported, measured live; publishing pending"
 targetVersion: "2.0"
 incorporated: null
 embargo: false
@@ -39,6 +39,17 @@ relatedDPs:
   - "DP-66"
   - "DP-12"
 ---
+
+**Build status — 2026-08-22.** EM Narrative is built and measured live, end to
+end. The NarrativeNode, prose-plus-embed blocks and the site-story scaffolder
+exist in s3Dgraphy; EMStudio authors the narrative (a palette, drag-to-embed, an
+AI draft that arrives attributed and is human-validated); and all four
+projections — **HTML, Word, LaTeX and Jupyter** — export with the live figures
+baked in (the Harris matrix, the vector map, the timeline). It is the technical
+proof behind the Heritage *"Who Made This?"* paper. What remains is the
+publishing front — baking the outputs to the Extended Matrix Catalog and the
+triplestore — and step-by-step authoring polish. The design below is the target;
+the substrate now stands.
 
 Extended Matrix has spent a decade making the *evidence* of a reconstruction auditable: every virtual stratigraphic unit, every reconstructive claim, every documentary source behind a property. What it has never had is a native way to **tell the story of that reasoning** — an authored document that walks a reader through *why* a reconstruction looks the way it does, with the matrix, the 3D scene, the sources and the uncertainty all present as live, citable objects rather than as flattened screenshots pasted into a word processor. EM Narrative is that missing layer: a first-class semantic-narrative object that interleaves authored prose with live references to the EM graph, so the account and the evidence never drift apart.
 

@@ -4,8 +4,8 @@ title: "EMStudio Workspaces (Blender-like areas) + US form sheet"
 cat: "infra"
 impacts:
   - "emstudio"
-status: "concept"
-statusLabel: "Concept — configurable editor areas + form entry"
+status: "in-dev"
+statusLabel: "In development — six workspaces shipped; US form sheet post-freeze"
 targetVersion: "2.0"
 incorporated: null
 embargo: false
@@ -27,6 +27,17 @@ relatedDPs:
   - "DP-13"
   - "DP-75"
 ---
+
+**Build status — 2026-08-22.** The workspace model is built and measured live.
+EMStudio now ships **six task-shaped arrangements** — Documentation, Graph, DTC,
+Comparisons, Narrative, Annotator — from a single arrangement builder (the
+standalone IDE area was removed; the Table is a window inside Graph). Matrix and
+generic graph are modes of one surface, windows keep their content and scroll
+position when they lose focus, and English is the default interface language. The
+narrative-from-graph seed is in place: entering the Narrative arrangement
+auto-scaffolds a site-story from the current graph's epochs. The remaining
+milestone is the **US form sheet** (front/back data-entry templates), still
+post-freeze. See the EMStudio user manual for the current state.
 
 ## Why two seeds before the big refactor
 
