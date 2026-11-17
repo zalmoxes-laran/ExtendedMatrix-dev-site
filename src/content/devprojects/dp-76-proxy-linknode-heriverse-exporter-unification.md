@@ -7,9 +7,9 @@ impacts:
   - "emtools"
   - "heriverse"
   - "config"
-status: "planned"
-statusLabel: "Planned"
-targetVersion: "2.0"
+status: "partial"
+statusLabel: "Partial — proxy side built, Heriverse side to agree"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
 desc: "Give the proxy (SemanticShapeNode) its geometry through a LinkNode (has_linked_resource / P67) like the RM/RMDoc/RMSF facets, retiring the inline url and unifying the geometry-linking pattern so the resource layer + DTC lifecycle apply to proxies too. Coordinated change across s3Dgraphy, EMTools, the em.json exporter and the Heriverse exporter — unifying the Heriverse-exporter em.json to the new JSON. Reframes EMTools 'Heriverse export' as a 3D-asset optimizer."
@@ -22,7 +22,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed"
-notes: "Rationale (E.D. 2026-07-30): verification showed an asymmetry — the proxy (SemanticShapeNode, node_type semantic_shape, connected to its US via has_semantic_shape, id name-derived e.g. USM99_proxy, internal / not in GraphML) carries its geometry INLINE (url + convexshapes/spheres), whereas the RM/RMDoc/RMSF facets reference a LinkNode via P67. Giving the proxy a LinkNode is the correct harmonization and brings the resource-layer + DTC to proxies, but it is a coordinated breaking change requiring a dedicated development session that unifies the Heriverse-exporter em.json with the new JSON. Sequencing: pair it with that exporter-unification session. The optimizer reframing is the strategic payoff — one authoring truth (hi-res local), Heriverse fed optimized MinIO alternatives."
+notes: "In 1.6: the proxy reaches its geometry through a resource (built); Heriverse reading em.json, to be agreed with the Heriverse team (E.D., 17 Nov 2026) — otherwise the legacy payload is frozen and documented as the beta format. The url still written inside the shape node is to remove."
 relatedDPs:
   - "DP-11"
   - "DP-31"

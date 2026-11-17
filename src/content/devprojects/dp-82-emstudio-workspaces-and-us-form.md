@@ -4,12 +4,12 @@ title: "EMStudio Workspaces (Blender-like areas) + US form sheet"
 cat: "infra"
 impacts:
   - "emstudio"
-status: "in-dev"
-statusLabel: "In development — six workspaces shipped; US form sheet post-freeze"
-targetVersion: "2.0"
+status: "near"
+statusLabel: "Built — real-case test and documentation pending for the beta"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
-draft: true
+draft: false
 desc: "Make EMStudio's interface configurable the way Blender's is: the screen is made of AREAS, each holding an EDITOR of a chosen type (Matrix, generic graph, Narrative, Table/M-Data, DTC, 3D, and a Unit form sheet), and a saved arrangement of areas is a WORKSPACE. This already happens implicitly — entering Narrative mode swaps the central area — and the proposal is to make it explicit and general: any area can become another editor, Matrix vs generic-graph are MODES of one area (extensible to DTC and future modes), and layouts can be saved and restored. Two nearer-term seeds fall out of it and are worth doing first: (1) a central-area MODE enum that formalises the graph↔narrative swap that exists today; (2) narrative-from-graph — entering Narrative mode auto-scaffolds a site-story TEMPLATE from the current graph's epochs (plus graph/site position and other available data), which the author then prunes (remove epochs not to be described) or re-adds — the simplest single entry point for attaching narrative to the graph, reusing the existing site_story scaffolder (DP-79, the N-series from PortaMarina). The larger milestone — transformable/splittable areas and saveable workspaces, plus a Unit FORM sheet (front/back templates, the data-entry counterpart to the Table viewer, extending DP-13's Virtual SU Sheet) — is post-freeze."
 components:
   - "**Area + editor-type model.** The screen is areas; each area renders an editor of a type (matrix / generic-graph / narrative / table / dtc / 3d / unit-form). Formalises the implicit central-area swap that Narrative mode already performs."
@@ -17,16 +17,23 @@ components:
   - "**Narrative-from-graph template on enter (near-term seed).** Entering Narrative mode auto-generates a site-story template from the current graph: all available data (epochs, graph position, site position) populate the template; inside, the author deletes epochs they do not want to describe or re-adds them. One entry point, reusing the DP-79 site_story scaffolder. Solves 'no simple way to attach narrative to the graph'."
   - "**Transformable areas + workspaces (milestone).** Split an area, change its editor type, save and restore named layouts — the Blender-workspace model. Different windows for Matrix and generic graph, or one window with modes; the same freedom for Table, Narrative, DTC."
   - "**Unit FORM sheet (milestone).** A form-style data-entry editor for stratigraphic-unit records — a front/back sheet with templates — the entry counterpart to the DP-81 Table/M-Data viewer, extending DP-13 (Virtual SU Sheet). Table for bulk, form for a single record's depth."
-thesis: false
+thesis: true
 stratigraph: true
 keyStudy: "Needed"
-notes: "E.D. 2026-08-05: the interface should be able to hold several CONFIGURATIONS — same windows, different positions — as in Blender; it already does so implicitly when entering Narrative mode. Two DPs by decision: DP-81 (Table/M-Data, freeze-safe, near-term) and this one (workspaces + form, larger/post-freeze). Sequencing: DP-81 Phase A first; then the two near-term seeds here (mode enum + narrative-from-graph); the transformable-areas/workspaces and the US form sheet are the post-freeze milestone. Keep it simple: do not build the full tiling system during the freeze — formalise the mode swap and ship the table dock, which are the first two bricks toward the workspace architecture."
+notes: "Built: workspaces and the US sheet, whose definitions come from stratigraph-templates (DP-100). Missing: stable default workspaces, the ICCD sheet tested on a real case."
 relatedDPs:
   - "DP-81"
   - "DP-79"
   - "DP-13"
   - "DP-75"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** test on a real case — ICCD US sheets filled on a real excavation and compared with the paper ones.
+
+**Overlap:** DP-13 (USV sheet) and DP-100 (sheets as data) are the other two faces of the sheet.
+
+*Original project description:*
 
 **Build status — 2026-08-22.** The workspace model is built and measured live.
 EMStudio now ships **six task-shaped arrangements** — Documentation, Graph, DTC,

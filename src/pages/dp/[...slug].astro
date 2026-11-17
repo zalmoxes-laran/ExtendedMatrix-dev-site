@@ -21,13 +21,20 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const p = entry.data;
 const { Content } = await entry.render();
+// Embargo (MICRO-O, 2026-11-17): title, status and target version only; the
+// body, components, notes and key study are not written into the built page.
+// `astro dev` shows everything for local review.
+const hide = p.embargo && !import.meta.env.DEV;
+const successor = p.supersededBy
+  ? (await getCollection('devprojects', ({ data }) => data.id === p.supersededBy && !data.draft))[0]
+  : undefined;
 ---
 
 <Layout
   activeTab={null}
   slim={true}
   title={`${p.id} — ${p.title} · Extended Matrix Development Projects`}
-  description={p.desc}
+  description={hide ? `${p.id} — ${p.title} (under embargo)` : p.desc}
 >
   <section class="dp-body">
     <a href="/" class="dp-back">&larr; Back to Roadmap</a>
@@ -37,28 +44,35 @@ const { Content } = await entry.render();
         <div class="panel-id">{p.id}{p.embargo ? ' — EMBARGO' : ''}</div>
         <h2>{p.title}</h2>
         <div class="dp-tags" style="margin-top:0.5rem">
-          <span class={`tag ${catTag[p.cat] || ''}`}>{catLabel[p.cat] || p.cat}</span>
+          {!hide && <span class={`tag ${catTag[p.cat] || ''}`}>{catLabel[p.cat] || p.cat}</span>}
           {p.embargo && <span class="tag tag-embargo">EMBARGO</span>}
           {p.targetVersion && p.targetVersion !== 'TBD' && (
             <span class="tag tag-version">v{p.targetVersion}</span>
           )}
-          {p.thesis && <span class="tag tag-thesis">Thesis candidate</span>}
-          {p.stratigraph && (
+          {!hide && p.thesis && <span class="tag tag-thesis">Thesis candidate</span>}
+          {!hide && p.stratigraph && (
             <a href="https://stratigraph-eccch.eu" target="_blank" rel="noopener" class="tag-stratigraph-link">
               <span class="tag tag-stratigraph">StratiGraph &#8599;</span>
             </a>
           )}
-          {(p.impacts || []).map((i) => (
+          {!hide && (p.impacts || []).map((i) => (
             <span class={`tag ${impactTagClass[i] || ''}`}>{impactLabels[i] || i}</span>
           ))}
         </div>
       </div>
 
       <div class="panel-body">
-        <div class="psec">
-          <h3>Description</h3>
-          <Content />
-        </div>
+        {hide ? (
+          <div class="psec">
+            <h3>Description</h3>
+            <p class="embargo-note">This development project is under embargo: its details will be published when the embargo ends.</p>
+          </div>
+        ) : (
+          <div class="psec">
+            <h3>Description</h3>
+            <Content />
+          </div>
+        )}
         <div class="psec">
           <h3>Status</h3>
           <div class="status-line">
@@ -70,12 +84,19 @@ const { Content } = await entry.render();
           <h3>Target EM Version</h3>
           <p>{p.targetVersion || 'TBD'}</p>
         </div>
+        {p.supersededBy && (
+          <div class="psec">
+            <h3>Superseded by</h3>
+            <p>{successor ? <a href={`/dp/${successor.slug}/`}>{successor.data.id} — {successor.data.title}</a> : p.supersededBy}</p>
+          </div>
+        )}
         {p.incorporated && (
           <div class="psec">
             <h3>Incorporated in</h3>
             <p>EM v{p.incorporated}</p>
           </div>
         )}
+        {!hide && (<>
         <div class="psec">
           <h3>Impacts</h3>
           <div class="dp-tags">
@@ -104,9 +125,10 @@ const { Content } = await entry.render();
             <p>{p.notes}</p>
           </div>
         )}
-        {p.embargoNotes && (
-          <div class="embargo-detail" data-embargo="hidden">
-            <h4>Embargo notes</h4>
+        </>)}
+        {p.embargo && !hide && p.embargoNotes && (
+          <div class="embargo-detail">
+            <h4>Embargo</h4>
             <p>{p.embargoNotes}</p>
           </div>
         )}

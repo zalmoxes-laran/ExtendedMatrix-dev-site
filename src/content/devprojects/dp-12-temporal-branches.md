@@ -8,8 +8,8 @@ impacts:
   - "config"
   - "emtools"
 status: "planned"
-statusLabel: "Planned"
-targetVersion: "1.6"
+statusLabel: "Planned — not started"
+targetVersion: "1.7"
 incorporated: null
 embargo: false
 desc: "Alternative chronological interpretations as first-class branches in the EM graph. Two complementary inter-branch connectors at the language layer — **excluding** (mutually exclusive, absorbs former DP-42's dashed connector) and **connecting** (concatenation of compatible hypotheses) — plus a downstream EM Tools **Temporal Branch Manager** panel that surfaces the list of alternatives, lets the modeller switch active branch via dropdown, shows a macro description per hypothesis, and filters the US Manager + scene by active branch (parallel affordance to the existing Epoch and Activity filters)."
@@ -23,10 +23,10 @@ components:
   - "**Concatenation of connected hypotheses** (post-MVP, captured here for the long view). Once `concatenates_with_branch` is in the language layer, the manager surfaces ‘follow concatenation chain’ as a navigation affordance: from branch A, jump to branch B that follows it, then to C, building a coherent multi-hypothesis sequence. Not in the first cycle of the manager UI; the language-layer edge ships first so the data structure is ready when the affordance lands."
   - "Round-trip discipline: the two new connector types ride the canonical-edges + multilingual-rapporti pipeline (DP-62 + DP-63 PR #22/#23). pyArchInit has no native concept of inter-branch connectors, so the GraphML d13 packed string carries them on the source TimeBranchNode and the reverse-export to pyArchInit either drops them (with a warning) or stores them in a side-channel column — design choice deferred to the implementation pass."
   - "CIDOC alignment: `excludes_branch` maps to `crminf:J3_in_exclusive_disjunction_with` (or equivalent in CRMinf's belief-set vocabulary); `concatenates_with_branch` to `crminf:J4_complements` or a custom `em:concatenates_with_branch` extension if no CRMinf predicate fits. The v1.6 RDF Export layer picks both up cleanly once declared in `em.ttl`."
-thesis: true
+thesis: false
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "Absorbs former DP-42 (Dashed Connector) as the `excludes_branch` case. Substantially expanded 2026-06-09 to formalise the architectural sequencing — **language layer first, manager UI second** — plus the second connector type (concatenation) that complements exclusion, plus the manager-panel + US-Manager-filter UI surface that parallels the existing Activity + Epoch managers. The architectural rationale for ‘connectors before manager’ is the standard EM data-layer-first discipline that DP-62 / DP-66 / DP-67 already follow: the graph language must express the structure cleanly first, so the UI is a thin authoring layer on top of a correct data model — not the other way around. Open decisions to thread at review: (1) the concatenation edge name — `concatenates_with_branch` is descriptive but verbose; alternatives `links_to_branch`, `chains_with_branch`, `is_compatible_with_branch`. Proposal: `concatenates_with_branch` for parity with `excludes_branch` (both are explicit verb-phrases acting on branches as objects). (2) Whether `is_active` on TimeBranchNode is a per-graph or per-session flag — proposal: per-session (a scene property, not a graph property), so multiple modellers exploring the same graph can each have their own active branch without conflict. (3) When the modeller switches active branch via the dropdown, should the scene filter immediately (auto-refresh) or wait for an explicit apply? Proposal: auto-refresh with a short fade transition, same UX as the Epoch Slider already provides via DP-10 CronoFilter. (4) The yEd colour proposals for the two connectors need calibration with the existing EM palette (defer to DP-30). (5) Whether scaling the manager to support deeply nested branch concatenations (A → B → C → D) needs hierarchical view (tree) vs flat list with cross-links — proposal: flat list for MVP, tree affordance only if real use cases demand it. (6) The pyArchInit reverse-export edge case (no native concept of inter-branch connectors) — proposal: warning + drop on reverse export for MVP, side-channel column in a follow-up if a real consumer needs round-trip fidelity. Cross-refs: DP-42 (the dashed connector, absorbed), DP-43 (Time Branch group node — the parent class of TimeBranchNode), DP-10 (Multigraph + CronoFilter — sibling chronological-filter affordance), DP-32 (Propagative Metadata Resolver — branch context flows through), DP-39 (Transformation Connector — the dotted edge type, conceptually adjacent), DP-30 (Reconstructive Elements + palette calibration), DP-62 / DP-63 (round-trip + multilingual plumbing reused for the new edge types), DP-66 (property inheritance — inter-property reuse pattern conceptually adjacent), DP-19 (Canvas Project — eventual in-tool matrix where the branch dropdown could surface natively)."
+notes: "1.7 nursery, to be merged with DP-73. Only the TimeBranch group of DP-43 exists today."
 relatedDPs:
   - "DP-43"
   - "DP-10"
@@ -38,6 +38,11 @@ relatedDPs:
   - "DP-66"
   - "DP-19"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Overlap:** DP-73 (the ancient project as an unrealised branch) is the same idea seen from the project; the two will be merged.
+
+*Original project description:*
 
 Alternative chronological interpretations have always been part of how an archaeologist reasons about a stratigraphic record. Two excavation teams reach different conclusions about the sequence of a wall's construction phases; a single team produces a primary hypothesis but documents a secondary one for completeness; a synthesis pass over a long-running project compiles five competing reconstructive narratives from different periods of fieldwork. The EM language has long had the **Time Branch group node** (DP-43) as the data structure for hosting these alternatives — each branch is a coherent slice of the graph carrying its own version of the stratigraphic story — but two things have been missing.
 

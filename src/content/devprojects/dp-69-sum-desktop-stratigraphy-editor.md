@@ -6,9 +6,9 @@ impacts:
   - "s3d"
   - "emtools"
   - "yed"
-status: "in-dev"
-statusLabel: "In development — thesis prototype, used experimentally on site"
-targetVersion: "1.7"
+status: "superseded"
+statusLabel: "Closed as EM project — external compatible tool"
+targetVersion: "1.6"
 incorporated: null
 embargo: true
 embargoNotes: "MSc/specialisation thesis by Mattia Curto (Scuola di Specializzazione), expected 2027. Held back from public listing to protect the candidate's academic priority until the thesis is defended/published. Authorship: tool led and owned by M. Curto; EM ecosystem is the interoperability host. Licence: GNU GPL."
@@ -25,10 +25,10 @@ components:
   - "Daily field diary: project code, date, operator, locality, multi-US selection, free report, attached images."
   - "Finds (reperti) management: present but obsolete (untouched since last year) — scheduled for a rethink."
   - "Per-sheet ORCID / licence / embargo fields (free-text entry) aligned with the EM authorship + embargo conventions (cf. DP-51, DP-59)."
-thesis: true
+thesis: false
 stratigraph: true
 keyStudy: "Needed — thesis case study in preparation (Curto, expected 2027); already used experimentally on a live excavation."
-notes: "Origin: meeting Demetrescu × Curto, 2026-06-11. Internal launch build nicknamed 'Montepelmo'. Author: Mattia Curto (Scuola di Specializzazione, 2nd year, runway to 2027); not on staff — a field practitioner with a research bent. Licence: GNU GPL (chosen deliberately to keep the project open and attract community PRs). // INTEROPERABILITY ROADMAP (the StratiGraph field-tool requirements that move SUM from 'EM-compatible on export' to 'EM-interoperable'): (1) RESIDENT FORMAT — today SUM thinks tabular (SQLite under the hood) and only emits EM on export. Target: keep an in-memory s3dgraphy property graph as the resident model (or at minimum a canonical EM interchange file — tabular EM / GraphML / pure s3dgraphy JSON — underneath), so UI lists are projected from the graph at runtime, schemaless, no metadata schema fixed up front. This is what lets the same data render as an Italian, German or French sheet via a clean per-schema JSON mapping. (2) MAPPING JSON — one-time, hand-editable JSON that maps each DB column to an existing EM node type (the s3dgraphy `pandas → graph` path takes exactly this). SUM could ship a mapping *editor* (author the JSON once, reuse it in EM Tools too) — converges with DP-61. (3) BIDIRECTIONAL INTERCHANGE — not just GraphML export but round-trip, so SUM ↔ EM Tools (Blender) ↔ PyArchInit all share one graph formalism and link directly; the canonical-edges work in DP-62 is the reference. (4) DYNAMIC UI FROM A JSON CONFIGURATOR — generate the data-entry interface from a schema descriptor so SUM serves ICCD, the Austrian model, French and other EU ministerial schemas without code changes (Curto: 'impegnativo ma interessante'). EU data-sovereignty angle: the schemaless graph is what keeps the tool from being locked to one national schema. // SHORTER-TERM ACTION ITEMS from the meeting: auto-propose all compatible physical relations after a temporal relation is entered (prefill them red, user picks the right one, the rest die); replace the 'find errors' icon with a stethoscope and add a plaster/bandage icon for 'repair', both grouped near export; move confirmation pop-ups from modals to a footer status line; rework the obsolete finds section; drop the early raw GraphML/PNG export that pre-dated the s3dgraphy exporter (confusing duplicate). // NEXT STEPS: Curto to (a) write the SRS, (b) attend the EM developer hour, (c) consider publishing the GPL repo to the community; bump bundled s3dgraphy to the 1.6 dev build (≥ the build that packs physical relations into the per-node GraphML custom field) so physical relations survive export. // Cross-refs: DP-62 (PyArchInit ↔ s3dgraphy canonical-edges round-trip — the interoperability reference), DP-61 (EM Mappings Registry & Builder — where the mapping JSON belongs), DP-64 (viewport stratigraphic annotator — sibling field-annotation surface), DP-41 (swimlane epoch-local data — the tabulation problem), DP-55 (SU creation workflow unification), DP-51/DP-59 (author node / ORCID identity)."
+notes: "Closed as an EM development project (roadmap, 17 Nov 2026): SUM is an external tool led by M. Curto, compatible with EM when it exports valid em.json or GraphML. Validating SUM's export with s3Dgraphy on a real excavation is welcome as a test."
 relatedDPs:
   - "DP-62"
   - "DP-61"
@@ -37,6 +37,11 @@ relatedDPs:
 order: 69
 draft: false
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Closed (17 November 2026):** reclassified as an external tool compatible with EM.
+
+*Original project description:*
 
 SUM is a desktop application an archaeologist runs on the trench edge: it captures US sheets, builds the Harris/Extended Matrix from them automatically, and exports the result — and it already speaks Extended Matrix at the export boundary, because its matrix is written through the s3dgraphy/Stratigraphy exporter and opens directly in the official EM 1.6 yEd palette. It was built from scratch by Mattia Curto as a specialisation-school thesis, re-architected from an earlier monolith into a clean MVC application (configurable forms over an SQLite core, a plugin loader resolved at startup, a multilingual UI, an embedded Python console) and packaged as a standalone executable. It is GPL by deliberate choice.
 

@@ -6,9 +6,9 @@ impacts:
   - "emtools"
   - "s3d"
   - "config"
-status: "concept"
-statusLabel: "Concept"
-targetVersion: "1.7"
+status: "partial"
+statusLabel: "Partial — editor built, registry not started"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
 desc: "Community-curated registry of EM mapping JSONs (pyArchInit, EMdb, Generic Excel and beyond), served from a dedicated subdomain with per-mapping cards, an embedded web-based builder, one-click download, and a publish-as-PR flow. Closes the loop between the new SQLite/PostgreSQL pyArchInit backend (PR #28) and the long tail of project-specific source schemas the EM community already deals with privately."
@@ -26,16 +26,21 @@ components:
   - "ORCID-attributed authorship of submitted mappings (DP-59 dependency) — anonymous submissions allowed via PR, ORCID-signed submissions get a verified-author badge"
   - "Mapping-schema versioning and validator: a JSON Schema for the s3dgraphy mapping format itself, executed on every PR by GitHub Actions; bumps require explicit schema-version bumps with a migration note"
   - "Optional mirror to a single .zip pack for offline / air-gapped use (downloadable from the registry site)"
-thesis: false
+thesis: true
 stratigraph: true
 keyStudy: "Needed"
-notes: "Triggered by EM Tools 1.6 PR #28 (PostgreSQL/PostGIS backend for pyArchInit imports, Enzo Cocca) and the Sub-3 reverse-export work that will follow on the same umbrella issue #27. Now that connecting to *live* archaeological databases is one click away, the bottleneck moves to the *mapping JSONs* that describe how to translate each project's source schema into EM graph nodes. Today those mappings ship as a tiny built-in set inside s3dgraphy (pyarchinit_us_table, pyarchinit_uss_table, pyarchinit_us_update, EMdb variants, generic Excel) — the long tail (regional pyArchInit forks, custom QGIS layouts, lab-specific Excel templates) lives in private folders. The registry turns that long tail into a discoverable, citable, peer-reviewable artifact. Dependencies and alignments: (a) DP-57 Zenodo automation — the registry mirrors accepted mappings to Zenodo for citation and FAIR archival. (b) DP-59 ORCID identity — verified-author badge, anonymous fallback always allowed. (c) DP-08 Subjectivity Project / DP-09 Vocabulary Project — the mapping JSONs are the place where vocabulary alignment between EM and external schemas becomes machine-readable; the registry is the natural place to surface alignment statistics across mappings. Open decisions (call out in conversation when this DP is reviewed): (1) subdomain — proposing `mappings.extendedmatrix.org`; alternatives `registry.extendedmatrix.org` (broader, could also host yEd palettes / XLSX templates / s3dgraphy plugins later) or `bridge.extendedmatrix.org` (since mappings *bridge* external data into EM). (2) hosting — GitHub Pages with custom domain (zero-cost, mirrors the main site flow) vs. SSR on Cloudflare Pages (allows server-side mapping validation as a paid feature for unverified PRs). (3) PR review policy — auto-merge after CI passes vs. one maintainer ack required vs. ORCID-verified author only. (4) builder embed — single-page Astro island vs. separate static page. Recommendation: start with GitHub-as-registry + static cards site + embedded builder (Option B in the body) before considering anything heavier."
+notes: "In 1.6: the Mapping Editor in EMStudio and the authoring API, to ingest partners' databases. The public registry, its website and DOIs are 1.7."
 relatedDPs:
   - "DP-57"
   - "DP-59"
   - "DP-08"
   - "DP-09"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** use — map a partner's real database with the editor and measure what is lost.
+
+*Original project description:*
 
 The EM Tools 1.6 PostgreSQL/PostGIS backend (PR #28) made connecting to a live archaeological database a one-click affair. Where the friction moved next is unsurprising: *which mapping JSON do I pick, and what do I do when none of the built-in ones fits my project's schema?* Today s3dgraphy ships a handful of mappings — `pyarchinit_us_table`, `pyarchinit_uss_table`, `pyarchinit_us_update`, EMdb variants, a generic Excel adapter — and the long tail lives in private folders on lab machines. DP-61 turns that long tail into a public, discoverable, citable artifact while keeping the contribution barrier low enough that an archaeologist with a custom column layout can publish a mapping without learning git.
 

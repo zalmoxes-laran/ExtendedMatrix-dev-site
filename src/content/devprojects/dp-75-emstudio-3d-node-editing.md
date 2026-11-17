@@ -5,10 +5,11 @@ cat: "infra"
 impacts:
   - "emstudio"
   - "s3d"
-status: "concept"
-statusLabel: "Concept"
-targetVersion: "2.0"
+status: "superseded"
+statusLabel: "Superseded by the EMStudio 3D Space (DP-89)"
+targetVersion: "1.6"
 incorporated: null
+supersededBy: "DP-89"
 embargo: false
 desc: "Make the 3D-node part (RM / RMDoc / RMSF, their transforms and validity) editable and accessible from EMStudio by embedding a 3D viewer/editor (ATON / Heriverse) — iframe or another integration — with multiple windows and the option to send one fullscreen. EMStudio's graph stays 2D; the embedded viewer provides the 3D editing surface."
 components:
@@ -20,13 +21,18 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed"
-notes: "Floated by E.D. 2026-07-30 as the editing surface for the 3D layer (motivated by DP-74 RM validity editing and the Q-C placement work). Concept: the intent (make 3D nodes editable/accessible from EMStudio) is clear; the mechanism (iframe vs deeper embed of ATON/Heriverse) is open. Pairs with DP-11 (Heriverse) and the EMStudio track (DP-33), and stays clear of the CNRS scientific viewer per the DP-70 boundary."
+notes: "Closed: a native three.js viewer (the Space, DP-89) was chosen instead of an embedded ATON. Editing a model's transform from the gizmo, with the Blender chain, is in 1.6 inside DP-89 (E.D., 17 Nov 2026)."
 relatedDPs:
   - "DP-11"
   - "DP-33"
   - "DP-70"
   - "DP-74"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Closed (17 November 2026):** superseded by the EMStudio 3D Space, DP-89.
+
+*Original project description:*
 
 EMStudio authors the stratigraphic graph in 2D, but a growing part of the model is genuinely three-dimensional: the representation models (RM, RMDoc, RMSF), their transforms, their placement qualia and — with DP-74 — their temporal validity. Today that 3D layer is editable only in Blender. DP-75 proposes to make it editable and accessible from EMStudio too, by embedding a 3D viewer/editor — ATON or Heriverse — as an iframe or a deeper integration, with a multi-window layout and the option to send one window fullscreen.
 

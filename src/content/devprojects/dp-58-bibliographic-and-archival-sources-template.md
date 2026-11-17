@@ -6,7 +6,7 @@ impacts:
   - "s3d"
   - "emtools"
 status: "partial"
-statusLabel: "Partially implemented"
+statusLabel: "Partial — schema to decide"
 targetVersion: "1.6"
 incorporated: null
 embargo: false
@@ -22,7 +22,7 @@ components:
 thesis: false
 stratigraph: false
 keyStudy: "Basilica"
-notes: "Cited in the EM 1.3 release summary as 'formalized source list for data collection'. Two-sheet schema observed in production projects (e.g. AmbaAradam). Revision retargeted to EM 1.6 — aligns with DP-07 (three-axis Document classification) and DP-02 (em_data.xlsx Documents sheet). Manual scope split intentionally: 1.5 manual = stable schema only, 1.6 manual = revised schema. Manual file: source_node.rst (Source List Tool section)."
+notes: "In 1.6: decide the source schema (minimal new code) — map year, authors, role and content nature, align Type with the document types, make the second sheet canonical, write the manual page."
 ---
 
 XLSX template for the systematic registration of bibliographic and archival sources of an EM project (the Source List, conventionally source_list.xlsx at the project root). The first version was released with EM 1.3 — cited in the release notes as 'formalized source list for data collection' — and is fully valid for EM 1.4. In real projects (Basilica, Great Temple, Amba Aradam) the schema has converged on 8 columns (Name, Description, Url, Property that can validate, original id., Type, Preview, Notes) and a two-sheet split (Analytical Sources / Comparative Sources) that anticipates the DP-07 Axis 1 (role) classification. A revised version is planned for EM 1.6: (1) formalizes the two-sheet split as canonical schema, (2) aligns the Type column with DP-07 Axis 2 (content_nature) + Axis 3 (geometry) controlled vocabularies, (3) makes the schema directly mergeable into the em_data.xlsx Documents sheet (DP-02) so the bibliographic registry feeds the StratiMiner pipeline without manual duplication, (4) ships a formal column reference and worked example in the EM manual (source_node.rst). To avoid confusion for users learning EM 1.5, the EM 1.5 manual section documents only the stable single-sheet 8-column schema with free-text Type; the two-sheet split, the closed Type vocabulary and the DP-07 axis mapping land on the EM 1.6 manual branch only.

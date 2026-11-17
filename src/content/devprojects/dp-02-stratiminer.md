@@ -6,9 +6,11 @@ impacts:
   - "s3d"
   - "emtools"
 status: "near"
-statusLabel: "Near completion"
+statusLabel: "Built — to be measured on a real DosCo"
 targetVersion: "1.6"
 incorporated: null
+absorbs:
+  - "DP-80"
 embargo: false
 embargoNotes: "Prompt workflow operational end-to-end. Standalone tool planned."
 desc: "AI tool to extract stratigraphic data from grey literature and PDFs. Absorbs former DP-49 (unified em_data.xlsx supersedes the legacy stratigraphy.xlsx + paradata.xlsx two-file schema)."
@@ -27,7 +29,12 @@ components:
 thesis: true
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "End-to-end pipeline shipped: prompt → em_data.xlsx → graph → graphml or merge. In 1.5 the StratiMiner panel is gated behind scene.em_tools.experimental_features pending field validation and publication; the gate is dropped in 1.6. Absorbs former DP-49 (Stratigraphy & Paradata XLSX Formalization): the unified em_data.xlsx schema supersedes the legacy stratigraphy.xlsx + paradata.xlsx two-file pipeline."
+notes: "In the 1.6 beta, both roads (E.D., 17 Nov 2026): the deterministic one (em_data.xlsx → graph) and the AI one (prompt → em_data.xlsx), which must be measured on a real DosCo before the beta. The panel moved from EM Tools to EMStudio in August 2026: the AI never writes the graph, a person reviews the table first. Human validation of AI output: DP-96. Absorbs DP-80."
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** test on a real case — extract a DosCo (Sarmizegetusa or Basilica Iulia) and measure the errors against a graph written by hand.
+
+*Original project description:*
 
 Tool to extract stratigraphic information from grey literature, PDFs, and online sources using AI. s3Dgraphy now provides the full end-to-end pipeline: (1) the v5.4 extraction prompt ships inside the package at s3dgraphy/data/StratiMiner_Extraction_Prompt.md — a single coherent document (no more A/B split) producing one em_data.xlsx with 5 typed sheets: Units, Epochs, Claims (long-table, one row per asserted fact with its own attribution), Authors, Documents. v5.4 teaches the three-axis Master-Document classification (role / content_nature / geometry per DP-07) with a decision sketch; (2) UnifiedXLSXImporter builds the complete graph in a single pass, covering scalar qualia, temporal qualia, epoch membership, stratigraphic relations, three-axis document classification, and per-claim author/extractor attribution with AuthorNode vs AuthorAINode distinction; (3) UnifiedXLSXExporter round-trips a graph back to em_data.xlsx (inverse of the importer, reconstructs the paradata chain); (4) GraphMerger extended to compare + resolve conflicts at the paradata layer (qualia added/changed/attribution_added, author/document/epoch added/changed, relation edge attribution added/changed); (5) diagnostics layer flags AI-induced incoherences — stratigraphic cycles and chronology paradoxes — with per-claim attribution walking the paradata chain (direct has_author → has_data_provenance → Extractor.has_author → paradata-group siblings). EMtools EM Bridge surfaces everything through the StratiMiner panel with two logical blocks (CREATE em_data.xlsx via AI or empty template, USE em_data.xlsx to build a new GraphML or merge into an active one). In 1.5 the panel ships behind scene.em_tools.experimental_features so the feature is visible only to opted-in users while the AI-extraction pipeline is validated on real grey literature; the gate is dropped in 1.6. Legacy two-file stratigraphy+paradata workflow is deprecated but still auto-detected for backward compatibility.

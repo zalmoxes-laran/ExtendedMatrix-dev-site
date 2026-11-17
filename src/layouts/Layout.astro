@@ -8,7 +8,7 @@ interface Props {
   /** Hide the heavy header (logo + meta line) when set — useful for the
    *  detail pages where we want a slimmer top bar. */
   slim?: boolean;
-  /** Active tab: 'roadmap' | 'versions' | 'incorporated' | null */
+  /** Active tab: 'roadmap' | 'byversion' | 'versions' | 'incorporated' | null */
   activeTab?: string | null;
 }
 
@@ -59,7 +59,7 @@ const headerVersionLabel = inDev
     {!slim && (
       <p>{description}</p>
       <div class="hdr-meta">
-        <span>Last updated: April 2026</span>
+        <span>Last updated: 17 November 2026</span>
         <span>{headerVersionLabel}</span>
         <span>Emanuel Demetrescu — CNR-ISPC</span>
         <span id="embargoIndicator" style="display:none">
@@ -95,6 +95,7 @@ const headerVersionLabel = inDev
 <nav class="tabs">
   <div class="tabs-inner">
     <a class={`tab ${activeTab === 'roadmap' ? 'active' : ''}`} href="/">Roadmap</a>
+    <a class={`tab ${activeTab === 'byversion' ? 'active' : ''}`} href="/by-version/">By version</a>
     <a class={`tab ${activeTab === 'versions' ? 'active' : ''}`} href="/versions/">EM Versions</a>
     <a class={`tab ${activeTab === 'incorporated' ? 'active' : ''}`} href="/incorporated/">Incorporated</a>
   </div>
@@ -119,8 +120,9 @@ const headerVersionLabel = inDev
       el.removeAttribute('data-embargo');
     });
   } else {
-    // Strip embargo entries from the DOM entirely so they cannot leak via
-    // dev-tools without the URL flag.
+    // Legacy: strip entries still flagged hidden. Since 2026-11-17 embargoed
+    // DPs are reduced at build time (DPCard, dp/[...slug]) and no page emits
+    // this flag any more; kept for safety.
     document.querySelectorAll('[data-embargo="hidden"]').forEach((el) => {
       el.remove();
     });

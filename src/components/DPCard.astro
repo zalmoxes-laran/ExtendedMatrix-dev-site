@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { catLabel, catTag, impactLabels, impactTagClass } from '../lib/dpMaps';
+import { catLabel, catTag, impactLabels, impactTagClass, resolveStatusLabel } from '../lib/dpMaps';
 
 interface Props {
   project: CollectionEntry<'devprojects'>;
@@ -9,6 +9,11 @@ interface Props {
 const { project } = Astro.props;
 const p = project.data;
 const detailHref = `/dp/${project.slug}/`;
+// Embargo (MICRO-O, 2026-11-17): an embargoed DP shows id, title, status and
+// target version only. Nothing else is written into the built HTML — the old
+// client-side removal left the text in the page source. `astro dev` still
+// shows everything, so E.D. can read the full card locally.
+const hide = p.embargo && !import.meta.env.DEV;
 ---
 
 <a
@@ -16,11 +21,13 @@ const detailHref = `/dp/${project.slug}/`;
   data-cat={p.cat}
   data-status={p.status}
   data-target={p.targetVersion ?? ''}
-  data-stratigraph={p.stratigraph ? '1' : '0'}
-  data-thesis={p.thesis ? '1' : '0'}
-  data-impacts={(p.impacts || []).join(' ')}
-  data-search={`${p.id} ${p.title} ${p.desc} ${p.cat} ${(p.impacts || []).join(' ')}${p.stratigraph ? ' stratigraph' : ''}${p.thesis ? ' thesis' : ''}`.toLowerCase()}
-  data-embargo={p.embargo ? 'hidden' : null}
+  data-stratigraph={!hide && p.stratigraph ? '1' : '0'}
+  data-thesis={!hide && p.thesis ? '1' : '0'}
+  data-impacts={hide ? '' : (p.impacts || []).join(' ')}
+  data-search={(hide
+    ? `${p.id} ${p.title} embargo`
+    : `${p.id} ${p.title} ${p.desc} ${p.cat} ${(p.impacts || []).join(' ')}${p.stratigraph ? ' stratigraph' : ''}${p.thesis ? ' thesis' : ''}`
+  ).toLowerCase()}
   href={detailHref}
 >
   <span class="dp-arrow">&rarr;</span>
@@ -29,13 +36,13 @@ const detailHref = `/dp/${project.slug}/`;
     <span class="dp-name">{p.title}</span>
   </div>
   <div class="dp-tags">
-    <span class={`tag ${catTag[p.cat] || ''}`}>{catLabel[p.cat] || p.cat}</span>
+    {!hide && <span class={`tag ${catTag[p.cat] || ''}`}>{catLabel[p.cat] || p.cat}</span>}
     {p.embargo && <span class="tag tag-embargo">EMBARGO</span>}
     {p.targetVersion && p.targetVersion !== 'TBD' && (
       <span class="tag tag-version">v{p.targetVersion}</span>
     )}
-    {p.thesis && <span class="tag tag-thesis">Thesis</span>}
-    {p.stratigraph && (
+    {!hide && p.thesis && <span class="tag tag-thesis">Thesis</span>}
+    {!hide && p.stratigraph && (
       <span
         class="tag tag-stratigraph tag-stratigraph-link"
         data-href="https://stratigraph-eccch.eu"
@@ -44,13 +51,17 @@ const detailHref = `/dp/${project.slug}/`;
         tabindex="0"
       >StratiGraph &#8599;</span>
     )}
-    {(p.impacts || []).map((i) => (
+    {!hide && (p.impacts || []).map((i) => (
       <span class={`tag ${impactTagClass[i] || ''}`}>{impactLabels[i] || i}</span>
     ))}
   </div>
-  <div class="dp-desc">{p.desc}</div>
+  {hide ? (
+    <div class="dp-desc embargo-note">{resolveStatusLabel(p.status, p.statusLabel)} — details under embargo.</div>
+  ) : (
+    <div class="dp-desc">{p.desc}</div>
+  )}
   <div class="dp-foot">
     {p.targetVersion && <>Target: EM {p.targetVersion}</>}
-    {p.keyStudy && p.keyStudy !== 'Needed' && <> &bull; Key study: {p.keyStudy}</>}
+    {!hide && p.keyStudy && p.keyStudy !== 'Needed' && <> &bull; Key study: {p.keyStudy}</>}
   </div>
 </a>

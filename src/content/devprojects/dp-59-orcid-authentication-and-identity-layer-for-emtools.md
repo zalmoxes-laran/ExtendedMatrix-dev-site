@@ -6,9 +6,9 @@ impacts:
   - "emtools"
   - "s3d"
   - "heriverse"
-status: "concept"
-statusLabel: "Concept"
-targetVersion: "1.7"
+status: "partial"
+statusLabel: "Partial — identity through the StratiGraph server built"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
 desc: "Optional ORCID-based identity layer for EMtools that unlocks federated services (Zenodo upload, Heriverse collaborative scenes, AuthorNode/Canvas-header auto-fill) while keeping every authoring feature usable offline / anonymously."
@@ -29,7 +29,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed"
-notes: "Service dependency: DP-57 (Zenodo) — DP-57's OAuth becomes a service-token slot inside DP-59's registry; CI/headless deposits keep working via env-var bypass. Identity dependency: DP-51 (Author Node) — connected ORCID feeds AuthorNode auto-fill. Header dependency: DP-40 (Canvas Header tags) — connected ORCID feeds the canvas header tag. Heriverse alignment: DP-11 already runs Keycloak; recommended architecture is ORCID-as-federated-IdP inside the Heriverse Keycloak realm (single sign-on across Blender and web). Anonymous-by-default is non-negotiable — every authoring, import, export and local-publish feature must keep working without an account. To be matured against the Zenodo deposit field test that DP-57 schedules."
+notes: "In 1.6: sign-in with ORCID through the node (see DP-103) and the declared ORCID that signs stamps in EM Tools, both built. Native OAuth in Blender and Zenodo tokens are 1.7."
 ---
 
 Adds an optional identity layer to EMtools, anchored on ORCID as the canonical academic identifier. Sign-in is strictly additive: every authoring, import, export and local-publish feature continues to work without an account — the anonymous-by-default contract is the load-bearing requirement of this DP. Authentication unlocks a curated set of federated services — first and foremost the Zenodo deposit pipeline (DP-57), the Heriverse collaborative editor (DP-11, Keycloak), and the AuthorNode/Canvas-header auto-fill flows (DP-51, DP-40). Architecture: (1) OAuth 2.0 client launching an external browser with a one-shot localhost callback listener on a randomized port; (2) token storage in Blender user prefs (bpy.utils.user_resource('CONFIG')/em_tools/auth.json) with restrictive POSIX permissions, never in the .blend, never in the GraphML, never in source_list.xlsx; (3) per-service access tokens chained to a single ORCID identity (Zenodo gets its own token, Heriverse gets its own Keycloak token), exposed as a service-token registry that DP-57 and the Heriverse export panel consume; (4) a Preferences > Identity & Services panel showing connection state per service with sign-in / sign-out / switch-user; (5) AuthorNode and Canvas-header tag pre-fill from the connected ORCID identity, with graceful fallback to free-text input when offline / signed-out; (6) headless / CI bypass via env-vars so DP-57 GitHub Actions can publish with service-account tokens without interactive OAuth. Heriverse already runs on Keycloak (DP-11): the recommended direction is to configure ORCID as a federated IdP in the Heriverse Keycloak realm, so a single ORCID sign-in transparently authenticates the user on both Blender and the Heriverse web client (single sign-on across the EM ecosystem). The alternative — independent ORCID + Keycloak connections — is supported as fallback. Privacy: ORCID public profile only, no off-protocol scraping; user can opt-out at any time by signing out (revokes local tokens; ORCID-side revocation is delegated to the user via orcid.org). Offline graceful: when a stored token expires and there is no network, EMtools falls back silently to anonymous mode and surfaces a soft 'session expired, sign in again to publish' notification on the next publish attempt.

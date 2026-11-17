@@ -6,12 +6,12 @@ impacts:
   - "emstudio"
   - "s3d"
   - "config"
-status: "idea"
-statusLabel: "Design sketch — tabular views + EM-Data over the graph"
-targetVersion: "2.0"
+status: "near"
+statusLabel: "Built — real-case test and documentation pending for the beta"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
-draft: true
+draft: false
 desc: "A dockable, full-width tabular viewer at the bottom of EMStudio that turns the graph into editable tables. Two levels: simple graph-views (e.g. a Stratigraphic-Unit table — id / type / description / epoch — with record selection, in-place editing and two-way propagation to em.json, exactly like the Inspector but tabular and bulk), and EM-Data — the powerful multi-table mapping of the whole Extended Matrix, including every assertion WITH its provenance. Crucially EM-Data is not a new data model: it is a live, editable view over the SAME five-sheet em_data structure that StratiMiner already produces (Units / Epochs / Claims / Authors / Documents — the canonical xlsx→em.json intermediate), so the viewer, the AI-generated table (StratiMiner path A) and the imported spreadsheet are one thing seen three ways. Auxiliary files (DP-ET/AUX, often tables) surface inside EM-Data too, marked in a distinct colour because their content is not yet baked into the graph — the same volatile/baked distinction the resource layer already carries. The dock is full-width UNDER the side wings (which shorten to sit above it), resizable from its top edge, collapsible to a thin bar, with a table selector. The result: inspect and edit the graph as data, review and correct AI-authored tables, and peek into un-baked auxiliaries, without leaving the canvas."
 components:
   - "**Bottom dock, full-width, resizable, closable.** A panel that spans the screen left-to-right UNDER the two side wings (the wings shorten to sit above it); default ~1/3 height, dragged from its top edge, collapsible to a thin bar. A table selector (dropdown / tabs) chooses which table is shown. Screen-space chrome, theme-aware (light/dark)."
@@ -25,7 +25,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed"
-notes: "E.D. 2026-08-05: EM-Data fully editable from the start, using em_data.xlsx (StratiMiner deliverable) as the template. Dock UNDER the wings, full width (recommended, confirmed). Phase A = the dock + US table (editable, propagating) + EM-Data over em_data + aux (baked/unbaked colour). Phase B (in DP-82) formalises the central-area MODE and the narrative-from-graph template. This DP deliberately reuses existing truth: em_data 5-sheet structure + UnifiedXLSXImporter (uuid5), StratiMiner path A, the AUX volatile/baked distinction — it is a VIEW with edit-propagation, not a second model. Refinements (E.D. 2026-08-05): the name is EM-Data (it IS em_data, not 'M-Data'); the viewer also manages source_list.xlsx (kept via auxiliary import, mapping into the Documents sheet — reflect on merging sources into em_data); ALL EMtools aux types wanted (emdb_xlsx/pyarchinit/dosco/source_list/resource_collection) with their mapping system; corrected volatile model — mapped aux is VISIBLE in graph AND table, marked volatile (blue font), not persisted until bake."
+notes: "Built as the Table window of EMStudio: editable sheets (Units, Epochs, Documents, Claims, Authors) and computed views (Datings, Warnings, Models). Missing: documentation, a bulk edit on a real case."
 relatedDPs:
   - "DP-80"
   - "DP-13"

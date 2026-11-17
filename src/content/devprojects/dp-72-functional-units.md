@@ -7,9 +7,9 @@ impacts:
   - "config"
   - "yed"
   - "emtools"
-status: "planned"
-statusLabel: "Planned"
-targetVersion: "1.7"
+status: "partial"
+statusLabel: "Partial — data and sheet built"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
 desc: "A typed aggregation node — a functional/architectural unit (e.g. a column) that groups the stratigraphic units (US) composing it. The bottom-up, stratigraphic way to expose an architectural-component view of an EM graph. Built on the Container Nodes (DP-36) infrastructure; distinct from the Activity group node (DP-43) and from generic containers. References a geometry-type taxonomy (bSDD / Getty AAT / HBIM shape-grammar vocabulary) rather than internalizing any geometric construction grammar."
@@ -20,10 +20,10 @@ components:
   - "Geometry type by reference to a taxonomy (bSDD / Getty AAT / HBIM shape-grammar vocabulary); the Functional Unit does NOT internalize the geometric construction grammar (that stays with the modeller / OpenBIM at export)."
   - "Consumption (later): EMTools — create a Functional Unit, assign US to it, filter/see the graph 'by functional unit'; reuse the Container Nodes filtering axis (DP-36). Then the other tools (EMStudio, Heriverse)."
   - "Interop: the Functional Unit is the natural anchor for projecting an EM graph to architectural-component vocabularies in the s3Dgraphy CIDOC/target-ontology mapping, letting an EM graph also speak the architectural-component view."
-thesis: false
+thesis: true
 stratigraph: true
 keyStudy: "Needed (architectural case — Basilica Iulia-like)"
-notes: "Requested by E.D. 2026-07-30. Rationale: the most EM should adopt from the architectural-reconstruction direction is a functional aggregation unit (colonna = le sue US), explicitly distinct from the virtual activity. It is how EM speaks to the architecture community without adopting a geometric construction grammar. Domain frame (E.D.): the architectural-project view studies the *ancient design* (shape + reconstruction, no temporal depth); EM studies *how it was realized* (stratigraphic/temporal) and can include the project as a layer. BIM (Blender + OpenBIM addon) is used AFTER reconstruction to simulate (solar, static) — to STUDY, not to VALIDATE (ancients did not build by our criteria). Build order: (1) s3Dgraphy datamodel node type first (Claude Code prompt under s3Dgraphy/.claude/wip/prompts/), then consume in EMTools and the other tools. Before adding: consult the datamodel + EM manual for existing aggregation constructs (Container Nodes DP-36, Activity/Group nodes DP-43) and reuse them; add scope_note + attach rules."
+notes: "In 1.6 (E.D., 17 Nov 2026): the data (Functional Unit group, is_in_functional_unit) and the ICCD sheet are built; to add an «assign to FU» action and a FU filter in EMStudio, and EM Tools support. The merged proxy and the cross-epoch view are DP-77 (1.7)."
 relatedDPs:
   - "DP-36"
   - "DP-43"
@@ -32,6 +32,11 @@ relatedDPs:
   - "DP-27"
   - "DP-47"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** test on a real case — a column or a wall made of several units, with a check of the RDF export.
+
+*Original project description:*
 
 A **Functional Unit** is a typed aggregation node that groups the stratigraphic units (US) which together make up a recognisable functional/architectural component — the *column* made of its US, a *wall* made of its US. It answers a need the stratigraphic reading alone does not: to handle, name and reason about a component as a whole, while keeping the individual US underneath intact and fully stratigraphic.
 

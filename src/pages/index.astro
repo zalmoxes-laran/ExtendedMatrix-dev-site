@@ -3,13 +3,16 @@ import Layout from '../layouts/Layout.astro';
 import DPFilters from '../components/DPFilters.astro';
 import StatusGroup from '../components/StatusGroup.astro';
 import { getCollection } from 'astro:content';
-import { statusOrder } from '../lib/dpMaps';
+import { statusOrder, byDpId } from '../lib/dpMaps';
 
-// Roadmap = all DPs that have not yet been incorporated, grouped by status,
-// in the canonical legacy order. Embargo cards are emitted but flagged so
-// the Layout.astro inline script removes them when ?embargo=on is missing.
-const all = await getCollection('devprojects', ({ data }) => !data.draft && !data.incorporated);
-all.sort((a, b) => a.data.id.localeCompare(b.data.id));
+// Roadmap = all DPs that are still open (neither incorporated nor
+// superseded), grouped by status, in the canonical legacy order. Embargoed
+// DPs appear as reduced cards (id, title, status, version) — see DPCard.
+const all = await getCollection(
+  'devprojects',
+  ({ data }) => !data.draft && !data.incorporated && data.status !== 'superseded'
+);
+all.sort(byDpId);
 
 const groups: Record<string, typeof all> = {};
 for (const s of statusOrder) groups[s] = [];

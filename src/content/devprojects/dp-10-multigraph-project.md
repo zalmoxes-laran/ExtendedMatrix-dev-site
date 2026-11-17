@@ -6,7 +6,7 @@ impacts:
   - "emtools"
   - "s3d"
 status: "done"
-statusLabel: "Incorporated"
+statusLabel: "Done — closed"
 targetVersion: "1.5"
 incorporated: "1.5"
 embargo: false
@@ -22,7 +22,12 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "Landscape Mode, CronoFilter and multi-graph Heriverse export all operational in EM 1.5."
+notes: "Closed (1.5). In 1.6 it evolved into the em.json container (several graphs in one file)."
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Overlap:** this 1.5 «Landscape Mode» is not the Landscape Graph of DP-04.
+
+*Original project description:*
 
 Multi-graph support: multiple interconnected graphs within a single EM project. Shipped in EM 1.5: (1) s3Dgraphy holds several named graphs concurrently with top-level helpers (get_graph, get_all_graph_ids, remove_graph) and multigraph loader (load_graph_from_file). (2) EMtools exposes the graph set through scene.em_tools.graphml_files with a per-graph 'publishable' flag that drives the Heriverse exporter. (3) A Landscape Mode toggles from a single-site workflow to a multi-site territorial view, prefixing objects and proxies with graph codes to prevent name collisions between sites. (4) CronoFilter provides custom chronological horizons (CF_ChronologicalHorizon) with auto-generation from all loaded graphs' epochs, save/load to .cf.json, and integration with the Heriverse JSON exporter. (5) Per-graph operations (import, remove, reload) isolate side effects so editing one site does not invalidate the others. Core language unchanged; this is a pure EMtools + s3Dgraphy feature.

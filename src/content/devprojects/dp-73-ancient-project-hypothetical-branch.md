@@ -8,7 +8,7 @@ impacts:
   - "yed"
   - "emtools"
 status: "concept"
-statusLabel: "Concept"
+statusLabel: "Concept — not started"
 targetVersion: "1.7"
 incorporated: null
 embargo: false
@@ -24,13 +24,18 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed (Porta Pia, Rome — unexecuted Michelangelo design; plus an excavated construction site frozen mid-work)"
-notes: "Raised by E.D. 2026-08-01 while reviewing DP-72 (Functional Units). Verbatim: «dipende da cosa sto ricostruendo: il progetto antico o cosa è stato realizzato. Andrebbe evidenziato con un DP: necessità di formalizzare il progetto antico e usarlo come una particolare categoria di document o fare (meglio) prevedere un particolare tipo di temporal branch che mostra un periodo ipotetico dell'impossibilità (se lo avessero realizzato allora sarebbe stato cosi - nel caso di rinvenimenti trovati come cantieri in costruzione o progetti non realizzati di michelangelo - esempio di porta pia a roma).» Preference stated for the time-branch route over the document route. Blocks the field-shape decision for DP-72's geometry_type_ref."
+notes: "1.7 nursery, to be merged with DP-12."
 relatedDPs:
   - "DP-72"
   - "DP-12"
   - "DP-43"
   - "DP-52"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Overlap:** DP-12 (temporal branches) carries the same mechanism; the two will be merged.
+
+*Original project description:*
 
 EM reconstructs **what was realized**. Its whole apparatus — stratigraphic units, epochs, the reasoning chain from sources to assertions — is built to say how a thing came to be, and with what degree of confidence. It has no honest place for what was **designed and never built**.
 

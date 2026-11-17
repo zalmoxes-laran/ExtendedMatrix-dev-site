@@ -8,7 +8,7 @@ impacts:
   - "config"
   - "emtools"
 status: "done"
-statusLabel: "Incorporated"
+statusLabel: "Done — closed"
 targetVersion: "1.5"
 incorporated: "1.5"
 embargo: false
@@ -23,7 +23,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "Introduced in EM 1.4, completed in EM 1.5. Absorbs former DP-44 (documentation of this connector)."
+notes: "Closed (1.5); extended in 1.6 to epoch instances and to the Landscape Graph."
 ---
 
 Dotted connector type that links multiple instances of the same stratigraphic unit or element that has transformed or moved over time, enabling tracking of temporal transformations of individual nodes across epochs. Introduced in EM 1.4 and completed in EM 1.5 across three layers: (1) Core language: dotted edge type formalized in the yEd palette with clear semantics distinct from standard causal connectors. (2) s3Dgraphy v0.1.31+: changed_from edge type with instance-chain traversal helpers that rebuild the temporal sequence of a node across its evolutions. (3) EMtools: Stratigraphy Manager and RM Manager expose instance-chain filtering so that selecting one instance highlights all its transformation steps in the scene. Dedicated import/export paths in the GraphML pipeline preserve the edge semantics on round-trip. The former DP-44 (documentation of this connector) has been merged into this DP: formal description, RST documentation and authoring-time usage guidance ship together with the feature.

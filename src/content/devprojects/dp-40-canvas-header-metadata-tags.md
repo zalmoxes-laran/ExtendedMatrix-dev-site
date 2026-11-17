@@ -6,7 +6,7 @@ impacts:
   - "yed"
   - "config"
 status: "done"
-statusLabel: "Incorporated"
+statusLabel: "Done — closed"
 targetVersion: "1.5"
 incorporated: "1.5"
 embargo: false
@@ -18,7 +18,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "Subset of DP-32 scope, completed for 1.5"
+notes: "Closed (1.5); absorbed by graph-scope paradata (DP-65). In em.json 1.1 the header declares its profiles."
 ---
 
 Added general metadata as tags in square brackets next to the EM canvas title: ID, ORCID, License, and Embargo. These are graph-level metadata propagating to all nodes. Part of the Propagative Metadata System (DP-32) scope, specifically the graph-level header implementation.

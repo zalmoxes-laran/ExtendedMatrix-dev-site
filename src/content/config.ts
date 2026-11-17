@@ -23,7 +23,7 @@ const devprojects = defineCollection({
     // Taxonomy
     cat: z.enum(['core', 'tool', 'extension', 'infra', 'research', 'collab']),
     impacts: z
-      .array(z.enum(['emtools', 's3d', 'yed', 'config', 'heriverse', 'emstudio']))
+      .array(z.enum(['emtools', 's3d', 'yed', 'config', 'heriverse', 'emstudio', 'server']))
       .default([]),
 
     // Status — ordered from most-shipped to most-nascent. `idea` is the
@@ -40,6 +40,11 @@ const devprojects = defineCollection({
       'concept',
       'research',
       'idea',
+      // `superseded` (added 2026-11-17, MICRO-O): a DP closed without being
+      // incorporated as written — absorbed by another DP, merged, or replaced
+      // by a different design. `supersededBy` names the successor when there
+      // is a single one; the notes say from what in every case.
+      'superseded',
     ]),
     // Legacy `statusLabel` field — preserved verbatim from the source array,
     // even though it is derivable from `status`. Keeping it avoids any data

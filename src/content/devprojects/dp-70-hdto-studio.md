@@ -6,7 +6,7 @@ impacts:
   - "s3d"
   - "config"
 status: "concept"
-statusLabel: "Future option — deferred"
+statusLabel: "Concept — recorded option"
 targetVersion: "2.0"
 incorporated: null
 embargo: false
@@ -20,7 +20,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed"
-notes: "Decision (2026-07-22, E.D.): develop ACCORPATO for now — HDTO lives in s3Dgraphy + as the HDTO lens in EMStudio; a separate HDTO Studio is recorded here as a future option only, NOT a deliverable (a deliverable over-commits). Revisit only on ETT / consortium buy-in or a CNR sister-project pull. Full rationale in EMStudio/.claude/wip/handoff-hdt-em-dtc-strategy.md (S4) + roadmap-interop-and-buildout.md. Housekeeping flagged while assigning this number: DP-66 is DUPLICATED (dp-66-property-inheritance-and-premise-reuse.md AND dp-66-switchable-clustering-em-editor.md) — one should be renumbered (e.g. DP-71) to fix the collision. Free gaps in the sequence: 14, 22, 42, 44, 49."
+notes: "2.0, as a recorded option. Today HDT-O is a lens inside EMStudio (decision of 22 Jul 2026)."
 relatedDPs:
   - "DP-18"
   - "DP-17"

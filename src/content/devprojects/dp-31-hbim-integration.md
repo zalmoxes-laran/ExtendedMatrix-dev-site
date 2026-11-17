@@ -6,7 +6,7 @@ impacts:
   - "emtools"
   - "s3d"
 status: "planned"
-statusLabel: "Planned"
+statusLabel: "Planned — not started"
 targetVersion: "2.0"
 incorporated: null
 embargo: false
@@ -17,7 +17,12 @@ components:
 thesis: true
 stratigraph: false
 keyStudy: "Needed"
-notes: ""
+notes: "2.0. The only hook today is the geometry_type_ref of Functional Units (bSDD, AAT)."
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** test — Functional Units with a bSDD geometry type on a real building, compared with an existing HBIM model, without writing an exporter.
+
+*Original project description:*
 
 Integration with HBIM workflows and IFC standards.

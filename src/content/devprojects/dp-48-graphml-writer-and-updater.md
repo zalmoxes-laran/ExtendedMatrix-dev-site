@@ -7,7 +7,7 @@ impacts:
   - "s3d"
   - "config"
 status: "done"
-statusLabel: "Incorporated"
+statusLabel: "Done — closed"
 targetVersion: "1.5"
 incorporated: "1.5"
 embargo: false
@@ -23,7 +23,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed"
-notes: "Core exporter + patcher shipped and exercised by Create Host, Bake, Save GraphML. Multi-source assembly pipeline and authoring-manual update split out to DP-53 for v1.6. Related to DP-06 (Data Transformation Chunk) and DP-45 (XLSX Auxiliary Data)."
+notes: "Closed (1.5). Since 1.6 GraphML is an import and exchange format (yEd) only; authoring happens in em.json (E.D., 17 Nov 2026). Exporter and patcher stay maintained for exchange."
 ---
 
 Core toolset for creating and updating GraphML files from the s3Dgraphy in-memory graph. The GraphML exporter writes a fresh .graphml matching the yEd palette template (n1..n36 + n37-n39 reference Master Documents), and the GraphML patcher performs incremental updates to an existing .graphml — used by the volatile Save GraphML flow, the Create Host operator, and the Bake Paradata flow. Both paths read visual styling from em_visual_rules.json (single source of truth) and keep geometry consistent with the palette template reference nodes. The multi-source assembly pipeline (merging multiple XLSX / Blender-scene / manual-annotation sources into a single target GraphML) and the updated authoring manual were scoped out to a v1.6 follow-up tracked as DP-53.

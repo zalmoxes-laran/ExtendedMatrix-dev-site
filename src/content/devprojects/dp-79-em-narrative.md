@@ -7,12 +7,12 @@ impacts:
   - "emstudio"
   - "config"
   - "heriverse"
-status: "in-dev"
-statusLabel: "In development — authored & exported, measured live; publishing pending"
-targetVersion: "2.0"
+status: "near"
+statusLabel: "Built — real-case test and documentation pending for the beta"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
-draft: true
+draft: false
 desc: "A first-class semantic-narrative object in the EM graph: a NarrativeNode (em.json → RDF) that interleaves authored prose with live references to EM resources — the Harris matrix and epoch slices, US / USV / proxy with their existence certainty, representation models, documents and images, 3D scenes, maps, timelines, tables and queries, and — the part no comparable tool carries — the source-criticism / paradata reasoning itself, rendered inside the story rather than filed as an appendix. Unlike a word processor or a wiki, the narrative is not a frozen blob of HTML: it is a node in the graph, so it stays queryable, versioned and DTC-traceable, and its embeds are references (by stable ID) that update automatically when the reconstruction changes. One narrative source, many outputs: a dynamic/live web viewer, a smart LaTeX projection for scholarly print, semi-static docx/HTML for hand-off, and a Jupyter-notebook rendering for computational readers. EM Narrative is the authored, documentary document that tells how a reconstruction was reasoned and proven; it is distinct from — and composable with — DP-29 (EMN / Narrative Units), which formalises the performative, intangible-heritage layer (dialogues, rituals, characters)."
 components:
   - "**NarrativeNode as a first-class graph object.** A NarrativeNode is a node in em.json (projected to RDF as an `E33 Linguistic Object` / `E73 Information Object`, with a dedicated `emn:Narrative` type), carrying metadata (author, license and embargo via DP-32; version; language via DP-63) and an **ordered sequence of blocks**. Because it is a node — not an exported document — the composition itself is knowledge: you can ask *which narratives cite this US*, *which reconstructions have an authored narrative*, *which narratives depend on a source now retracted*; you can version it, diff it, and trace it through the DTC. This is the deliberate contrast with narrative systems that store the authored document as an opaque HTML blob where only the referenced resources — never the composition — remain queryable."
@@ -25,10 +25,10 @@ components:
   - "**Relationship to DP-29 (EMN / Narrative Units).** The two narrative concepts are orthogonal and composable. DP-29 formalises **what was lived inside what was built** — the performative, intangible-heritage layer (dialogue lines, ritual acts, characters as USV, the four-axis `tono` / `registro` / `contenuto` / `tempo` schema). EM Narrative is **the document that recounts the reconstruction and its evidence** — an authored, documentary artefact. A DP-29 scene is one of EM Narrative's embed view-types: an EM Narrative can present a Narrative-Unit scene where it strengthens the account, but the two are authored, validated and versioned as separate first-class objects."
   - "**Reuse across the stack.** EM Narrative composes existing infrastructure rather than adding a parallel one: the Shelf / acquisition pipeline (documents, images), Heriverse / ATON (3D embeds), the matrix / epoch machinery (DP-12 / DP-34), the paradata chain (DP-66), propagative author / license / embargo metadata (DP-32) and multilingual labels (DP-63). The addition is one concept — the NarrativeNode and its embed grammar — plus the four output projections."
   - "**RDF / SPARQL surface** opened by treating the narrative as a node: *list all narratives that cite a given US ordered by block position*; *list narratives whose embeds reference a now-retracted source*; *trace which paradata chains a narrative renders as evidence*; *count narratives per Activity / Epoch to measure the interpretive coverage of a project*; *find reconstructions that have a 3D scene but no authored narrative*. Maps to the RDF export layer once the NarrativeNode is declared in the EM ontology."
-thesis: false
+thesis: true
 stratigraph: true
 keyStudy: "Design sketch born from a 2026 audit of the EM ecosystem against a mature CIDOC knowledge platform (ResearchSpace-class): such platforms have an excellent live-embed prose composer (maps, IIIF images, diagrams, charts, timelines) but store the authored document as an HTML blob and carry neither stratigraphy, nor time, nor 3D. EM Narrative takes the good idea — prose that embeds live knowledge-graph resources — and does it where EM has depth the comparators lack: as a first-class RDF-queryable node, with the evidence chain and uncertainty inside the story, and with 3D (Heriverse / ATON) native to the narrative. Learn the UX (live drag-and-drop embeds, IIIF / Mirador for images) from the mature platforms; build the substrate natively."
-notes: "Open decisions to thread at review. (1) NarrativeNode class — dedicated `emn:Narrative` mapping to E33 / E73, vs a lighter reuse of an existing information-object node. Proposal: dedicated type so the narrative-specific queries (cite / retracted-source / coverage) are first-class. (2) Embed model — an embed as a small node with `{ref: <stable ID>, view_type: <enum>, options}` vs an inline attribute on a prose block. Proposal: embed-as-node so embeds are themselves queryable (‘which embeds use the paradata view-type’). (3) Viewer naming — keep *narrative* for the authored object; decide separately whether the runtime viewer needs its own coined name (*storyline* floated) or whether context disambiguates. Non-blocking. (4) Multi-output engine — a single projection layer that walks the block sequence and resolves embeds per target (web / LaTeX / docx-HTML / Jupyter), so a new output format is a new resolver, not a re-authoring. Snapshot semantics for the static targets (docx / HTML) vs live semantics for web / Jupyter must be explicit per export. (5) The Jupyter target should reuse the s3Dgraphy query surface already exercised by DP-21 (EM Meter) so notebook embeds are live analytics, not baked images. (6) Two-tier discipline — authored in em.json, projected to RDF; the narrative is never authored triple-first, keeping merge-by-UUID intact. Cross-refs: DP-29 (EMN / Narrative Units — performative layer, composable as an embed view-type); DP-21 (EM Meter — Jupyter analytics the notebook output generalises); DP-13 (Virtual SU Sheet — earlier Jupyter-as-sheet idea); DP-11 (Heriverse — 3D embed + web viewer runtime); DP-32 (propagative author / license / embargo on the narrative node); DP-63 (multilingual labels for narrative content); DP-66 (paradata / evidence chain rendered as an embed view-type); DP-12 / DP-34 (matrix / epoch embeds). Positioning note: EM Narrative is native and sovereign — the goal is not to depend on an external platform but to own the authored-narrative surface where EM's depth (stratigraphy, uncertainty, 3D, RDF-first) is the differentiator; interoperability with mature external knowledge platforms remains a separate, purely technical opportunity."
+notes: "Built: the NarrativeNode, the narrative package, docx / LaTeX / HTML / notebook exports (DP-109), authoring in EMStudio; check 99/99 on Templu Mare v9. Missing: open decisions (E33/E73, embed policy), a published narrative on a real case, user documentation."
 relatedDPs:
   - "DP-29"
   - "DP-21"
@@ -39,6 +39,11 @@ relatedDPs:
   - "DP-66"
   - "DP-12"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** use — the report of a real case (Templu Mare) written with verified citations.
+
+*Original project description:*
 
 **Build status — 2026-08-22.** EM Narrative is built and measured live, end to
 end. The NarrativeNode, prose-plus-embed blocks and the site-story scaffolder

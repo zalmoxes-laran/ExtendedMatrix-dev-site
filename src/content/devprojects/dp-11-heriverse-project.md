@@ -6,7 +6,7 @@ impacts:
   - "emtools"
   - "heriverse"
 status: "done"
-statusLabel: "Incorporated"
+statusLabel: "Done — closed"
 targetVersion: "1.5"
 incorporated: "1.5"
 embargo: false
@@ -25,7 +25,12 @@ components:
 thesis: true
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "Exporter refactored in 1.5 into a plugin-style architecture. Heriverse beta live; possible rebranding to Strativerse."
+notes: "Closed (1.5). In 1.6 Heriverse reads the EMStudio study through use profiles; the move to em.json is tracked in DP-76."
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** use — publish a real case study on Heriverse and evaluate how it is experienced.
+
+*Original project description:*
 
 Two components now operational. (1) Heriverse — online Heritage Metaverse service based on the ATON Framework, successor to EMviq with greatly expanded capabilities. Docker-based deployment production-ready (ATON, CouchDB, Keycloak, Nginx HTTPS). Beta version live with open beta-tester program. May evolve into Strativerse. (2) EMtools Heriverse exporter, refactored in 1.5 into a dedicated export_operators/heriverse/ subpackage (split by concern: operator, json_export, gltf wrapper, utils, collections helper). Exporter features: multi-graph JSON export with per-graph publishable flag, GLTF export for proxies and Representation Models with Draco compression and optional GPU instancing, separate texture pipeline with configurable max resolution and quality, ParaData (RMDoc) objects export with transform preservation, Special Finds (RMSF) export, optional ZIP packaging and Cesium tileset skip. A dedicated HERIVERSE_OT_make_collections_visible helper unhides all collections containing RM objects before export. The Export Manager panel now uses a plugin-style provider registry (ExportProvider) that hosts the Heriverse UI without coupling to the panel.

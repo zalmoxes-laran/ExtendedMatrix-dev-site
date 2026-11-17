@@ -1,10 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { catLabel } from '../../lib/dpMaps';
+import { catLabel, byDpId, resolveStatusLabel } from '../../lib/dpMaps';
 
 const done = (await getCollection('devprojects', ({ data }) => !!data.incorporated && !data.draft))
-  .sort((a, b) => a.data.id.localeCompare(b.data.id));
+  .sort(byDpId);
+// Closed without incorporation: absorbed, merged or replaced (2026-11-17).
+const superseded = (await getCollection('devprojects', ({ data }) => data.status === 'superseded' && !data.draft))
+  .sort(byDpId);
 ---
 
 <Layout activeTab="incorporated" title="Extended Matrix — Incorporated DPs">
@@ -29,12 +32,37 @@ const done = (await getCollection('devprojects', ({ data }) => !!data.incorporat
             </thead>
             <tbody>
               {done.map((p) => (
-                <tr data-embargo={p.data.embargo ? 'hidden' : null}>
+                <tr>
                   <td><a href={`/dp/${p.slug}/`}>{p.data.id}</a></td>
                   <td><a href={`/dp/${p.slug}/`}>{p.data.title}</a></td>
                   <td><a href={`/dp/${p.slug}/`}>{catLabel[p.data.cat] || p.data.cat}</a></td>
                   <td><a href={`/dp/${p.slug}/`}>v{p.data.incorporated}</a></td>
-                  <td><a href={`/dp/${p.slug}/`}>{p.data.keyStudy || ''}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>{p.data.embargo ? '' : (p.data.keyStudy || '')}</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+      {superseded.length > 0 && (
+        <>
+          <h2 class="incorp-title">Superseded or merged Development Projects</h2>
+          <table class="incorp-table">
+            <thead>
+              <tr>
+                <th>DP</th>
+                <th>Title</th>
+                <th>Closed as</th>
+                <th>Successor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {superseded.map((p) => (
+                <tr>
+                  <td><a href={`/dp/${p.slug}/`}>{p.data.id}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>{p.data.title}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>{resolveStatusLabel(p.data.status, p.data.statusLabel)}</a></td>
+                  <td><a href={`/dp/${p.slug}/`}>{p.data.supersededBy || ''}</a></td>
                 </tr>
               ))}
             </tbody>

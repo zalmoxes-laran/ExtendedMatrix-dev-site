@@ -6,8 +6,8 @@ impacts:
   - "s3d"
   - "emtools"
   - "config"
-status: "concept"
-statusLabel: "Concept"
+status: "partial"
+statusLabel: "Partial — data tagged, ontology labels missing"
 targetVersion: "1.6"
 incorporated: null
 embargo: false
@@ -24,7 +24,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed"
-notes: "Triggered by the architectural conversation 2026-06-06 around Enzo Cocca's PR #22 (s3dgraphy fix(sync): multilingual unita_tipo codes, closes issue #21) and the broader observation that PR #22 solves the LOCALIZED CODE problem (US/SU/SE/UE/WSU/MSE/…) one specific way — preserve original + map to canonical for structural decisions — but the same architectural shape is needed for the LANGUAGE TAG problem on free text. The two are related but distinct: codes have a canonical form (US/USM) and aliases that resolve back to it; free text in different languages is equi-valid and only needs the tag to discriminate. The latter is the RDF 1.1 / CIDOC-CRM idiom. Surface coverage: `rdfs:label` on every IRI instance, `crm:P3_has_note` / `crm:P102_has_title` / `dcterms:description` for narratives, `skos:prefLabel` + `skos:altLabel` on E55_Type qualia, `crm:E41_Appellation` for naming. Open decisions: (1) single-default vs per-language-alternates on the datamodel — recommend BOTH (default field + optional alternates dict), so the common single-language case stays ergonomic and the multi-team excavation case is expressible; (2) when an importer sees text without a language hint, fall back to a graph-level `defaultLang` or fail-loud — recommend graph-level default with a one-time warning; (3) translation provenance — should curated `@it` translations of `em.ttl` carry `dcterms:contributor` for each translator? Worth a SKOS-Concept-style block per language pair. Cross-refs: DP-08 (Subjectivity Project) and DP-09 (Vocabulary Project) are the natural homes for the curated SKOS work on qualia and controlled vocabularies; DP-61 (EM Mappings Registry) could host community-contributed language packs for `em.ttl` (a translator submits a PR with `@it` labels and the registry mirrors them with Zenodo DOI). DP-62 (PyArchInit canonical-edges) established the 'preserve original + canonicalise for structural decisions' pattern — DP-63 is the natural follow-up that applies the same architectural shape to free-text content with a language tag instead of a canonical alias map."
+notes: "Texts carry their language and the RDF export writes it. Missing (minimal new code): @it and skos:prefLabel in the em.ttl TBox, a round-trip test, a manual line. Language of the data and translations as nodes: DP-104."
 relatedDPs:
   - "DP-08"
   - "DP-09"

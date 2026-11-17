@@ -1,0 +1,93 @@
+---
+// DPs grouped by target version (MICRO-O, 2026-11-17): 1.5 LTS · 1.6 beta
+// (31 March 2027) · 1.7 · 2.0, with counts per status. The 1.6 group keeps
+// apart what stays behind «Experimental features» (targetVersion 1.6-exp).
+// Source of the perimeter: the EM 1.6 roadmap decided by E.D. on 17 Nov 2026.
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import {
+  byDpId,
+  statusOrder,
+  statusGroupLabel,
+  statusDot,
+  resolveStatusLabel,
+  versionBuckets,
+} from '../../lib/dpMaps';
+
+const projects = (await getCollection('devprojects', ({ data }) => !data.draft)).sort(byDpId);
+
+const buckets = versionBuckets.map((b) => {
+  const items = projects.filter((p) => (b.match as readonly string[]).includes(p.data.targetVersion ?? ''));
+  const counts = statusOrder
+    .map((s) => ({ s, n: items.filter((p) => p.data.status === s).length }))
+    .filter((c) => c.n > 0);
+  const main = items.filter((p) => p.data.targetVersion !== '1.6-exp');
+  const exp = items.filter((p) => p.data.targetVersion === '1.6-exp');
+  return { ...b, items, counts, main, exp };
+});
+const known = new Set(versionBuckets.flatMap((b) => b.match as readonly string[]));
+const other = projects.filter((p) => !known.has(p.data.targetVersion ?? ''));
+---
+
+<Layout activeTab="byversion" title="Extended Matrix — Development Projects by version">
+  <section class="section">
+    <div class="versions">
+      <h2 class="versions-title">Development Projects by target version</h2>
+      <p class="byver-counts">
+        The 1.6 perimeter follows the roadmap decided on 17 November 2026: what is not listed for 1.6 goes to the 1.7
+        nursery. «Experimental» marks what ships in 1.6 behind the <em>Experimental features</em> switch.
+        Embargoed projects show title, status and version only.
+      </p>
+      {buckets.map((b) => (
+        <div class={`ver-card ${b.key === '1.6' ? 'current' : ''}`}>
+          <h3>
+            {b.title}
+            <span style="font-weight:400;font-size:0.88rem;color:var(--em-text-light)"> — {b.items.length} DPs</span>
+          </h3>
+          <div class="byver-counts">
+            {b.counts.map((c, i) => (
+              <>
+                {i > 0 && ' · '}
+                <span class={`rm-dot ${statusDot[c.s] || 'rm-dot-planned'}`}></span> {statusGroupLabel[c.s] || c.s}: <b>{c.n}</b>
+              </>
+            ))}
+          </div>
+          {[{ label: null, list: b.main }, { label: 'Experimental (behind «Experimental features»)', list: b.exp }]
+            .filter((g) => g.list.length > 0)
+            .map((g) => (
+              <>
+                {g.label && <h4 style="margin:0.6rem 0 0.2rem;font-size:0.86rem">{g.label} — {g.list.length}</h4>}
+                <table class="byver-table">
+                  <tbody>
+                    {g.list.map((p) => (
+                      <tr>
+                        <td style="white-space:nowrap"><a href={`/dp/${p.slug}/`}>{p.data.id}</a></td>
+                        <td>
+                          <a href={`/dp/${p.slug}/`}>{p.data.title}</a>
+                          {p.data.embargo && <span class="tag tag-embargo" style="margin-left:0.4rem">EMBARGO</span>}
+                        </td>
+                        <td>
+                          <span class={`rm-dot ${statusDot[p.data.status] || 'rm-dot-planned'}`}></span>{' '}
+                          {resolveStatusLabel(p.data.status, p.data.statusLabel)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            ))}
+        </div>
+      ))}
+      {other.length > 0 && (
+        <div class="ver-card">
+          <h3>Other target versions</h3>
+          <ul>
+            {other.map((p) => (
+              <li><a href={`/dp/${p.slug}/`}>{p.data.id} {p.data.title}</a> — {p.data.targetVersion ?? 'TBD'}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>

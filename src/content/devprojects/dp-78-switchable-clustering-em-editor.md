@@ -7,9 +7,10 @@ impacts:
   - "yed"
   - "s3d"
 status: "concept"
-statusLabel: "Concept"
+statusLabel: "Concept — not started"
 targetVersion: "1.7"
 incorporated: null
+notes: "1.7 nursery. EMStudio has detail levels per family, not yet a switch between grouping registers."
 embargo: false
 desc: "A future EM graph editor lets the user switch the active visual clustering register — excavation/location vs activity vs time — rendering one folder register at a time, while the graph keeps all memberships as nodes + edges. Resolves the yEd no-overlapping-folders limitation that makes activity and excavation clusters collide."
 components:

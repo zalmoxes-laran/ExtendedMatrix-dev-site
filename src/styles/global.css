@@ -139,6 +139,7 @@ a:hover { color: var(--em-gold); }
 .rm-dot-planned { background: var(--em-gold); }
 .rm-dot-concept { background: #ccc; }
 .rm-dot-research { background: #c0392b; }
+.rm-dot-superseded { background: #fff; border: 2px solid #999; box-sizing: border-box; }
 .rm-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0.75rem; }
 
 .dp { background: var(--em-white); border: 1px solid var(--em-border); border-radius: var(--radius); padding: 1.05rem 1.15rem; cursor: pointer; transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease; position: relative; text-decoration: none; color: inherit; display: block; }
@@ -176,6 +177,13 @@ a:hover { color: var(--em-gold); }
 .tag-config { background: #f5e8d5; color: #8e5b1a; }
 .tag-heriverse { background: #f5d5e8; color: #8e1a5b; }
 .tag-emstudio { background: #d5dbf5; color: #2c3a8e; }
+.tag-server { background: #dfe8e0; color: #2e5b33; }
+.tag-status { background: #eee; color: #444; }
+.embargo-note { font-size: 0.86rem; color: var(--em-text-light); font-style: italic; }
+.byver-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin: 0.4rem 0 1.4rem; }
+.byver-table th, .byver-table td { text-align: left; padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--em-border); vertical-align: top; }
+.byver-counts { font-size: 0.84rem; color: var(--em-text-light); margin-bottom: 0.4rem; }
+.byver-counts b { color: var(--em-blue); }
 
 /* ---- Detail overlay / panel ---- */
 

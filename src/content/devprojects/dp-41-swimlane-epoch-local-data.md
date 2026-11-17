@@ -5,10 +5,10 @@ cat: "core"
 impacts:
   - "yed"
   - "config"
-status: "planned"
-statusLabel: "Planned"
+status: "done"
+statusLabel: "Done — closed"
 targetVersion: "1.6"
-incorporated: null
+incorporated: "1.6"
 embargo: false
 desc: "Start and End epoch values displayed next to epoch name in swimlanes."
 components:
@@ -18,7 +18,12 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "Complements DP-32 at swimlane scope level. Planned for EM 1.6."
+notes: "Closed: done in 1.6 (GraphML import and export, swimlane header in EMStudio). Only the yEd template in the documentation needs updating."
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Closed (17 November 2026):** done in 1.6.
+
+*Original project description:*
 
 Local temporal data in swimlanes: Start and End values displayed next to the epoch name. Enables swimlane-level temporal scoping as part of the propagative metadata approach.

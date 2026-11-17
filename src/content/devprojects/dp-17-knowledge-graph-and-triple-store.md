@@ -4,9 +4,9 @@ title: "Knowledge Graph & Triple Store"
 cat: "infra"
 impacts:
   - "s3d"
-status: "research"
-statusLabel: "Research"
-targetVersion: "1.7"
+status: "partial"
+statusLabel: "Partial — RDF/TTL both ways built, SPARQL endpoint to build"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
 embargoNotes: "Core infrastructure for KG vision. CIDOC-CRM mappings done. RDF/TTL and Neo4j exports planned in s3Dgraphy roadmap."
@@ -23,7 +23,12 @@ components:
 thesis: true
 stratigraph: true
 keyStudy: "Basilica"
-notes: "Merged from former DP-17 and DP-22. CIDOC-CRM mappings already in s3Dgraphy. Targeted to EM 1.7."
+notes: "In 1.6 (E.D., 17 Nov 2026): RDF/TTL import and export, built and tested, and a SPARQL endpoint on a triple store — the July 2026 decision «TTL now, Virtuoso later» is superseded. Neo4j is not planned."
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** use — load the Basilica Iulia TTL into a triple store and write CIDOC/CRMarchaeo queries.
+
+*Original project description:*
 
 Connector between s3Dgraphy and triple store / knowledge graph backends (Blaze, Grapho, etc.). Includes triple store database for holistic archaeology and cultural heritage documentation. Covers RDF mapping, SPARQL queries, and database schema. s3Dgraphy already has CIDOC-CRM mappings for all edge types (v1.5.4). Planned in s3Dgraphy roadmap: RDF/TTL export for semantic web compliance, Neo4j export for graph database integration.

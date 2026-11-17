@@ -6,8 +6,8 @@ impacts:
   - "emtools"
   - "s3d"
   - "yed"
-status: "done"
-statusLabel: "Done — ships with EM 1.6"
+status: "near"
+statusLabel: "Built — real-case test and documentation pending for the beta"
 targetVersion: "1.6"
 incorporated: null
 embargo: false
@@ -25,10 +25,10 @@ components:
   - "Mapping JSON field type `physical_relations_pyarchinit` — declarative tag that tells importers to parse the column into canonical edges instead of attaching it as a node attribute. Same flag drives the inverse direction on reverse export."
   - "Test surface: +57 tests across `tests/sync/test_rapporti_vocabulary.py` (13), `test_rapporti_parse_serialize.py` (38), `test_graphml_physical_relationships_d13.py` (6). Baseline 385 passed / 8 pre-existing failures / 37 skipped / zero regressions across the series."
   - "Manual: EM-blender-tools-doc 1.6 ships a dedicated section `pyarchinit_physical_relationships` in `docs/panels/em_setup.rst` (commit `5d2dcba`) explaining the format, the three cohabiting serializations, and the architectural separation (edges = temporal, packed = physical) so future contributors don't re-propose physical-relationship edges."
-thesis: false
+thesis: true
 stratigraph: true
 keyStudy: "Not needed — design is set; the lossless round-trip is observable end-to-end"
-notes: "Closes the read+write loop opened by Enzo Cocca's PR #28 (PostgreSQL/PostGIS backend for PyArchInit reads) and PR #29 (Sub-3 reverse export). Lands as a series of four commits on `s3dgraphy_v1.6dev` (`a934c7b` vocabulary extraction → `c0303e5` dispatcher + parse/serialize APIs → `ce308d3` graph_projector migration → `2823095` GraphML d13 import/export), plus the palette commit `1c195f1` and the doc commit `5d2dcba`. Companion CHANGELOG entry on s3dgraphy (`053efbc`) catalogues the series. Closed trackers across the EM galaxy: s3dgraphy #16 (Sub-feature A complete), EM-blender-tools #30 (palette + tests + docs + CHANGELOG, all acceptance criteria met), EM-blender-tools #27 (umbrella tracker for PyArchInit Postgres backend + reverse export). Deliberately deferred refinements, captured here so a future reader knows they exist and why they're not shipping in 1.6: (a) explicit `ensure_reciprocals(graph)` inference pass — currently handled structurally because each canonical edge type declares its direction (overlies vs is_overlain_by), so writing both sides suffices; an explicit inference pass would help for graphs imported with one-sided declarations from non-pyArchInit sources, but no observed user-facing need today; (b) `validate_physical_relationships(graph)` paradox / cycle / temporal-mismatch detection — not in scope of the canonical-edges series; the temporal layer already has cycle-detection plumbing but doesn't fire on the physical sub-graph; (c) passthrough mapping flag from the closed s3dgraphy #14, which would let arbitrary DB columns survive the round-trip as node attributes (workaround in place via `GraphProjector._propagate_node_uuid_and_us`); (d) shipping the `node_uuid` backfill migration in the s3dgraphy wheel (closed s3dgraphy #15, EM-tools stop-gap at `import_operators/pyarchinit_migrate.py` keeps real-export consumers unblocked); (e) edge-style diversification + transitive reduction regression on the GraphML writer pipeline (closed s3dgraphy #17, two of the eight pre-existing test failures, visual-only, no real-workflow breakage); (f) GraphIngestor inserts vs UPDATE-by-node_uuid (closed s3dgraphy #18, falls back to `(sito, us)` matching, good-enough for current EM-tools workflows); (g) `_synth_BR_*` synthesized US nodes after GraphML round-trip (closed s3dgraphy #19, byproduct of `materialize_continuity` transform — revisit once the EM 1.6 BR authoring story is finalised in the manual). Cross-refs: DP-61 (mappings registry) — the registry-side surface for declaring `physical_relations_pyarchinit` field types per mapping; the long tail of regional pyArchInit forks and lab-specific schemas will benefit from a public catalogue once the registry ships. Conversation 2026-06-04 set the architectural decision (edges = temporal, packed = physical, no verbatim on node)."
+notes: "Built (with Enzo Cocca's PR #31). Missing: a regression on the partner's real case. The wider SQL synchronisation layer is DP-102."
 relatedDPs:
   - "DP-61"
 repos:
@@ -40,6 +40,11 @@ repos:
     url: "https://github.com/zalmoxes-laran/EM-blender-tools-doc/tree/1.6"
 order: 62
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** test on a real case — the round-trip on a real excavation kept in pyArchInit.
+
+*Original project description:*
 
 The PyArchInit ↔ Extended Matrix loop has had a hole in it from day one. Reading from a PyArchInit database into an EM scene worked (GraphProjector); writing back was either impossible or partial. When Enzo Cocca's PR #28 added the PostgreSQL/PostGIS backend to `PyArchInitImporter` and his follow-up PR #29 wired a Sub-3 reverse-export operator into EM Tools, the read+write loop was finally there in shape — but the `rapporti` column on each US row, the physical stratigraphic relationships (`copre`, `taglia`, `si appoggia a`, …), stayed empty on every reverse export. The EM graph didn't have a place to keep them.
 

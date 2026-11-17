@@ -7,9 +7,9 @@ impacts:
   - "yed"
   - "emtools"
   - "config"
-status: "concept"
-statusLabel: "Concept"
-targetVersion: "1.7"
+status: "near"
+statusLabel: "Built — documentation pending"
+targetVersion: "1.6"
 incorporated: null
 embargo: false
 desc: "The graph-level home for ALL graph-scope paradata, held as first-class nodes attached to the graph root: georef shift (GeoPositionNode), author / license / embargo, and any graph-wide document / extractor / property. The third paradata-aggregation tier alongside per-US (DP-60) and swimlane (DP-19)."
@@ -36,7 +36,7 @@ relatedDPs:
   - "DP-60"
   - "DP-19"
   - "DP-10"
-notes: "Confirmed as a standalone DP (not folded into DP-56 / DP-40): its purpose is to be the graph-scope container for ALL graph-level paradata, with the georef shift as the first concrete tenant. Completes the paradata-aggregation tier system: per-US (DP-60) -> swimlane (DP-19) -> graph (this DP). Reused, already existing: the shift node + EMTools pipeline (DP-56, GeoPositionNode geo_{graph_id}, passive mirror 1.6 / active 1.7+); the graph-level metadata mechanism (DP-40 canvas-header tags + DP-32 node>swimlane>graph resolver + DP-51 author/license/embargo nodes). Open question: whether graph metadata migrates from header string tags to attached nodes, or the two coexist. DECISION (E.D. 2026-08-05): for now COEXIST — EMStudio's DP-32 funnel resolver (FUNNEL1) reads the canvas/graph tier from the DP-40 header fields, NOT from a graph-scope PDG, behind a single swappable readScopeValue() so nothing else special-cases it. The migration to the uniform graph-scope PDG described here is CONFIRMED as the more elegant target and WILL be done — best paired with the (equally delicate) LinkNode rename, as one coordinated model change."
+notes: "Built since August 2026: graph-scope paradata with author, licence, embargo and GeoPosition; legacy files are migrated on import."
 draft: false
 ---
 

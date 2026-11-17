@@ -7,12 +7,13 @@ impacts:
   - "emstudio"
   - "emtools"
   - "config"
-status: "idea"
-statusLabel: "Design — porting out of EMTools"
-targetVersion: "2.0"
+status: "superseded"
+statusLabel: "Merged into DP-02"
+targetVersion: "1.6"
 incorporated: null
+supersededBy: "DP-02"
 embargo: false
-draft: true
+draft: false
 desc: "StratiMiner turns disorganised source data in folders into an Extended Matrix graph, through a canonical intermediate table (em_data.xlsx, five typed sheets) that becomes em.json. The intermediate sheet is deliberate: an AI writes a canonical table far more reliably than it writes a graph directly, and the table is inspectable before it is turned into a graph. Two guaranteed paths reach the same place — (A) folder → em_data.xlsx via an API/LLM call, (B) folder → an extraction prompt the author runs in an external assisted session — and both converge on a single field: the path to em_data.xlsx, which a deterministic importer (s3Dgraphy UnifiedXLSXImporter) transforms into em.json. StratiMiner currently lives in EMTools (a Blender modelling addon), which is the wrong home: the pipeline is data → sheet → em.json, not 3D modelling. This DP ports it out — pure logic into s3Dgraphy, the assisted-authoring UI into EMStudio — reusing the provider-neutral LLM seam with a heavier, frontier-class model for the extraction step."
 components:
   - "**The canonical intermediate: `em_data.xlsx` (five typed sheets).** The unified schema that replaced the legacy two-step (stratigraphy.xlsx + em_paradata.xlsx). It is the contract between the messy sources and the graph: standardised, canonical, human-inspectable. The AI's job stops here — it never writes the graph, only this table."
@@ -23,11 +24,16 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Existing EMTools StratiMiner (em_data.xlsx unified flow, five typed sheets) proves the pipeline; s3Dgraphy's UnifiedXLSXImporter proves the deterministic table→graph step. What this DP adds is the correct home (s3Dgraphy + EMStudio, not EMTools) and Path A (API-automated folder→table) alongside the existing Path B (prompt-for-external-session)."
-notes: "Decision (E.D., 2026-08-03): port StratiMiner out of EMTools entirely — it is data→sheet→em.json, resident in the StratiGraph/s3Dgraphy world, not Blender modelling. Two paletti: (1) the two paths are explicit, not a black box; (2) the AI never writes the graph — only the inspectable em_data.xlsx — and the table→graph step is deterministic. UI placement: an 'assisted graph creation' surface in EMStudio. The frontier-model need reuses the provider-neutral LLM seam (per-task model selection; local adapters for sovereignty). First step: SM1 (EMStudio port + s3Dgraphy api.import_em_data + prompt builder), keeping StratiMiner in EMTools until validated. Draft/hidden until E.D. unhides. Cross-refs: DP-79 (EM Narrative — same LLM seam, same generate→validate discipline), DP-63 (multilingual — em_data can be authored in any language), the acquisition-seam / Shelf work (sources of the folder data)."
+notes: "Merged into DP-02 (E.D., 17 Nov 2026): it is the same object — from a folder of data to em_data.xlsx to em.json."
 relatedDPs:
   - "DP-79"
   - "DP-63"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Closed (17 November 2026):** merged into DP-02 (StratiMiner).
+
+*Original project description:*
 
 Extended Matrix has always started from data an archaeologist already has — a folder of PDFs, spreadsheets, notes, scattered and inconsistent — and the hardest, most manual part of the method has been turning that pile into the first structured artefact from which a graph can grow. **StratiMiner** is the tool for that first mile, and this DP does two things to it: it puts it in the right place, and it gives it a fully assisted path.
 

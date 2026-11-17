@@ -7,12 +7,12 @@ impacts:
   - "emstudio"
   - "heriverse"
   - "emtools"
-status: "in-dev"
-statusLabel: "In development — foundations built & measured; two reference connectors"
+status: "near"
+statusLabel: "Built — real-case test and documentation pending for the beta"
 targetVersion: "1.6"
 incorporated: null
 embargo: false
-draft: true
+draft: false
 desc: "One contract lets any tool interoperate with the Extended Matrix: a connector is an adapter that declares a ConnectorDescriptor and speaks the common wire — em.json, a content-addressed object store, a CRDT — where every write is DTC-attributed. It is the SAME contract as the stratigraph-chatbot tool contract, generalised: one shared core in s3Dgraphy, two consumers (the chatbot's ToolRegistry and EMStudio's ConnectorRegistry). The model rests on two orthogonal axes (collaboration x connectors, giving Standalone / Sidecar / Hub, which compose rather than overlap), a rendezvous ladder (direct = Sidecar, LAN = local Hub, cloud = global Hub — an online Heriverse is a cloud connector), and three shareable layers each with its own reach (document to the room; ephemeral interaction / link-selection to the user's own paired tool, never other users; presence to the room, information only — so the room never lets one user's click drive another's software). Foundations are built and measured: the s3dgraphy.contract core (Descriptor, Registry, invoke returning a DTC-attributed Result, four honest refusals whose words are a parameter), a consumer_drift version handshake, role- and author-gated writes, volatile-until-baked ingest. Two reference connectors exist: Blender (bidirectional, app-side, guarded) and a Heriverse consumer (read-only, cloud, dissemination — served, not writing)."
 components:
   - "**One contract, two consumers.** The interoperability surface is a single core in s3Dgraphy (`s3dgraphy.contract`): a Descriptor, a Registry, an `invoke` that returns a DTC-attributed Result, and four refusals whose wording is a parameter. The stratigraph-chatbot's ToolRegistry and EMStudio's ConnectorRegistry are thin specialisations of it — the same shape whether the caller is a voice tool or a desktop connector."
@@ -25,7 +25,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Templu Mare (EMStudio) and the stratigraph-chatbot field assistant — the two consumers that proved one contract holds across a desktop editor and a voice tool."
-notes: "Design note: EM_design_connector-plugins.md. Foundations measured 2026-08-21 (core + Blender reference #1) and the Heriverse consumer measured 2026-08-22 (32 live checks on the dev stack: a consumer enters as viewer, reads the published graph, is refused when it tries to write, resolves assets by sha256 with the licence header, and is refused with the embargo date — the seam and the server giving the same answer on the same document). One real gap found by measuring: a consumer cannot yet announce its descriptor inside a room (the relay does not forward host_info between clients); the smallest fix is a field on the presence member in StratiGraph Server, not a new channel. Cross-refs: DP-76 (Heriverse exporter unification), DP-38 (Tropy import), DP-37 (Chronontology connector), DP-59 (ORCID identity / attributed writes), DP-11 (Heriverse), DP-75 (EMStudio 3D via ATON/Heriverse), DP-17 (KG / triple store)."
+notes: "Built and used by EM Tools, EMStudio, StratiField, pyArchInit, the StratiGraph server and the NodeODM connector. Missing: a public versioned specification, a minimal external connector example, the protocol version frozen for the beta."
 relatedDPs:
   - "DP-76"
   - "DP-38"

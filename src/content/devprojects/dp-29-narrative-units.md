@@ -8,8 +8,8 @@ impacts:
   - "s3d"
   - "config"
   - "heriverse"
-status: "partial"
-statusLabel: "Prototype (thesis) — needs language formalisation"
+status: "concept"
+statusLabel: "Concept — not started as language"
 targetVersion: "2.0"
 incorporated: null
 embargo: false
@@ -30,7 +30,7 @@ components:
 thesis: true
 stratigraph: false
 keyStudy: "Frigerio (2022–2023). EMN as theoretical extension validated on two case studies — Nora forum (Plautine register source) and Segni acropolis (CNR ISPC web-app). Thesis status: theoretical with prototype application; needs further testing on full projects and language-level formalisation in EM, in coordination with the Alicante team for the character class."
-notes: "Original prototype lives in Paola Frigerio's master thesis *Extended Matrix Narratives: informare e intrattenere col passato*, Università degli Studi di Padova, Corso di Laurea Magistrale in Scienze Archeologiche, A.A. 2022–2023, relatore E. Demetrescu, correlatrice C. Previato. The thesis was developed in part during a placement at CNR ISPC Roma, with Eva Pietroni's mentoring (acknowledged in the thesis preface). DP-29 carries the prototype into the EM 2.0 language formalisation. Open decisions to thread at review: (1) UN as USV-shaped sibling vs sub-type of a new top-level class. Frigerio leans USV-shaped (same legend, same node behaviour); proposal: keep UN USV-shaped at language level, distinguish by `unita_tipo` value so canonical-edges round-trip stays trivial. (2) Character class refinement — *not for DP-29 alone to settle*. The thesis defers character work to the Alicante team (Pescarin et al.); DP-29 commits only to treating characters as USV with documented + creative property axes and to threading the class refinement with Alicante as a separate DP when the Alicante side is ready. (3) The three-case taxonomy lives where? Proposal: as a `narrative_case` attribute on the UN node (`singolo` | `sistema_scena` | `racconto_dentro_racconto`), driving the EM Tools panel layout but not changing the underlying node class. (4) The four UN properties (`tono`, `registro`, `contenuto`, `tempo`) — modelled as discrete fields each carrying its own paradata chain? Proposal: yes — each property uses the standard EM Property → Extractor / Combiner paradata structure (DP-66), with `registro` and `contenuto` requiring at least one documentary source, `tono` and `tempo` allowed to be creative-only. The validation rule mirrors Frigerio's working-journal contract. (5) Heriverse playback (DP-11): subtitle overlay MVP, TTS / character animation deferred to 2.x coordinated with Alicante. (6) The thesis prototype is Plautine Latin; DP-29 generalises to any historical register via the Vocabulary Project (DP-09) so the cross-project register catalogue can serve any language community; multilingual labels for register entries via DP-63. (7) AI / NLP assistance (Capitolo V.1) — adjacent thread, not in-scope for DP-29 language formalisation; revisit as a separate DP after 2.0 ships. Cross-refs: DP-23 (Music Reconstruction) and DP-24 (Dance Reconstruction) — sibling temporal-performance reconstruction DPs that share the intangible-culture extension framing; DP-28 (Virtual SU Pattern) — the cultural-pattern reasoning that UN dialogue registers can inherit from; DP-12 (Temporal Branches) — alternative narrative readings as exclusive / concatenated branches (the working-journal exposes ‘Plautine register vs Terentian register’ as two TimeBranches the academic + creative pair iterate on); DP-43 (Group Nodes — Activity in particular) — a scene-case UN can live inside an Activity that holds its actors and props; DP-11 (Heriverse) — the playback runtime; DP-30 (Reconstructive Elements — props and characters with microstratigraphy and hypergraph link) — adjacent and shares the character question with Alicante; DP-09 (Vocabulary Project) — home of the `registro` controlled vocabulary; DP-66 (property inheritance / Combiner premise) — UN property paradata structure reuses the standard chain; DP-32 (Propagative Metadata Resolver) — author / license / embargo on UN as for every other stratigraphic node. EM version note at the time of the thesis: EM 1.3 (current published); current EM at the time of DP-29 documentation (June 2026) is 1.6 stable + 1.7 dev — three language-cycle iterations later, the surrounding infrastructure (canonical edges DP-62, multilingual labels DP-63, property inheritance DP-66, propagative metadata DP-32) needed to host UN cleanly is finally in place."
+notes: "2.0. Not to be confused with EM Narrative (DP-79), which is built."
 relatedDPs:
   - "DP-23"
   - "DP-24"
@@ -46,6 +46,11 @@ repos:
   - label: "Frigerio P. (2022–2023) — Extended Matrix Narratives: informare e intrattenere col passato (Padova master thesis)"
     url: "https://thesis.unipd.it/handle/20.500.12608/46762"
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Thesis line:** test / publication — EMN on Nora with the existing nodes only.
+
+*Original project description:*
 
 Extended Matrix has been documenting **what was built** for over a decade — the strata of past construction, the network of physical and virtual stratigraphic units, the chain of reconstructive claims and the documentary sources behind each one. What it has not, until DP-29 picks up Paola Frigerio's master-thesis prototype, formalised is **what was lived inside what was built**: the dialogues spoken in a Roman forum, the ritual acts performed at a temple threshold, the ambient sounds of a market portico, the social register of an exchange between two merchants. These are the *patrimonio culturale immateriale* — intangible cultural heritage as defined by the 2003 UNESCO Convention (ratified in Italy in 2007): oral traditions and expressions, performing arts, social practices and ritual events, knowledge about nature and the universe, traditional craftsmanship. The Frigerio thesis identified this as the conceptual gap the EM language did not yet address, and proposed the EMN — Extended Matrix Narratives — as the extension that closes it.
 

@@ -8,8 +8,8 @@ impacts:
   - "s3d"
   - "config"
 status: "done"
-statusLabel: "Incorporated"
-targetVersion: "1.5"
+statusLabel: "Done — 1.6 tail built, to test on a real case"
+targetVersion: "1.6"
 incorporated: "1.5"
 embargo: false
 desc: "Three-axis document classification (role / content_nature / geometry), instancing, and temporal delta for source uncertainty."
@@ -29,7 +29,12 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Sarmizegetusa"
-notes: "Three-axis classification landed in 1.5. Delta system, full RM border shading, and activity list still pending (v1.6 tail). The wrap-graphs research extension is tracked separately as DP-52."
+notes: "The 1.6 tail is built: the time gap between a document and what it shows is given by the document's date and by the representation's acquired / valid_until (datamodel 1.6.48, 17 Nov 2026), with a warning when model and document disagree. Still to check: the RM border in Blender, the activity list in EM Tools."
 ---
+
+<!-- MICRO-O 2026-11-17 -->
+**Overlap:** the temporal validity of representations is also the subject of DP-74; DP-07 holds the document side, DP-74 the representation side.
+
+*Original project description:*
 
 Formalizes the DocumentNode as a three-axis classified, temporally-anchored, spatially-typed entity. Axis 1 (role): analytical (primary source for THIS context) vs comparative (external reference / analogy). Axis 2 (content_nature): 2d_object vs 3d_object. Axis 3 (geometry): reality_based (red) vs observable (orange) vs asserted (yellow) — or empty when the document has no Representation Model (PDF article, bibliography). The three axes are orthogonal; the geometry axis alone drives the border colour (in both yEd GraphML output and the Document Manager UIList icons, plus the optional RM viewport colour sync toggle). Palette template em_palette_template.graphml ships reference nodes n37/n38/n39 as single source of truth for sizes and colours; em_visual_rules.json declares the vocabulary (document_roles, document_content_natures, document_variant_styles) and the Python constants DOCUMENT_ROLES / DOCUMENT_CONTENT_NATURES / DOCUMENT_GEOMETRIES are derived from it via utils.get_document_vocabularies(). StratiMiner prompt v5.4 teaches the AI to fill ROLE / CONTENT_NATURE / GEOMETRY columns in the Documents sheet with a decision sketch. Document Manager: 3-axis classification shown in the detail panel with an Edit Classification operator; UIList icons colour by geometry. Create Host operator (AUX_OT_create_host_for_orphan) asks for all three axes at orphan→host promotion time. RMDoc Manager carries an opt-in toggle that mirrors the geometry colour on the scene quad via object.color. The instancing and delta system (temporal uncertainty ranges, e.g. 1450–1456) and full RM viewport border shading (materials/outline rather than object.color) are deferred to the v1.6 tail.

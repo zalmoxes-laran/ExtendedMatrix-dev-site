@@ -6,7 +6,7 @@ impacts:
   - "emtools"
   - "s3d"
 status: "planned"
-statusLabel: "Planned"
+statusLabel: "Planned — not started"
 targetVersion: "2.0"
 incorporated: null
 embargo: false
@@ -16,10 +16,10 @@ components:
   - "Instancing system"
   - "Prop nodes"
   - "Character nodes"
-thesis: true
+thesis: false
 stratigraph: false
 keyStudy: "Amba Aradam"
-notes: ""
+notes: "2.0. Only the series of virtual special finds (DP-111) touches instancing today."
 ---
 
 Props, characters with internal micro-stratigraphy. Clickable via hypergraphs. Reusable, instanced into the main graph.

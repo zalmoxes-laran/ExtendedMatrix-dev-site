@@ -7,7 +7,7 @@ impacts:
   - "s3d"
   - "config"
 status: "concept"
-statusLabel: "Concept"
+statusLabel: "Concept — not started"
 targetVersion: "1.7"
 incorporated: null
 embargo: false
@@ -22,7 +22,7 @@ components:
 thesis: false
 stratigraph: true
 keyStudy: "Needed (a wall built across four epochs, carrying a roof — static analysis case)"
-notes: "Raised by E.D. 2026-08-01 answering the DP-72 review. Verbatim: «insiemistica che funziona come tag e non come ipergrafo forse è la cosa migliore. anche perché servirebbero dei gruppi che si espandono temporalmente su più epoche (un muro fatto da elementi di 4 epoche stratificate ma che funzionalmente funziona tutto insieme per sostenere il tetto, in questo caso il proxy è un merge dei diversi elementi di cui è composto, utile per fare l'analisi per elementi finiti, ad esempio per i calcoli statici)» and, on the box spanning epochs: «sarebbe importante però e corretto. E' una visualizzazione alternativa a stratigrafia pura per cui può vivere in due visualizzazioni che non si calpestano i piedi a vicenda». The swimlane limitation was verified in crates/em-core/src/layout.rs (single lane per node; per-lane container layout; is_part_of at drawing-parent priority 0 and in the lane-inheritance set) — it is a property of the projection, not of the language."
+notes: "1.7 nursery, after real use of DP-72."
 relatedDPs:
   - "DP-72"
   - "DP-36"
